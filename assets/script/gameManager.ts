@@ -15,6 +15,8 @@ export default class GameManager extends cc.Component {
 
 	@property(cc.Prefab)
 	gameLayoutPrefab: cc.Prefab = null
+	@property(cc.Prefab)
+	pagesCirclePrefab: cc.Prefab = null
 
 	@property
 	pageCount: number = 5
@@ -22,6 +24,7 @@ export default class GameManager extends cc.Component {
 	pageView: cc.PageView
 	pageLabel: cc.Label
 	arrPages: GameLayoutManager[] = []
+	middleContainer: cc.Node = null
 
 	getScore() {
 		var score: number = 0
@@ -41,22 +44,38 @@ export default class GameManager extends cc.Component {
 
 	onPreviousClick() {
 		if (this.page > 0) {
-			this.page--
-			this.pageView.scrollToPercentHorizontal(
-				this.page / (this.pageCount - 1),
-				1
-			)
+			this.swapPage(this.page, this.page - 1)
 		}
 	}
 
 	onNextClick() {
 		if (this.page < this.pageCount - 1) {
-			this.page++
-			this.pageView.scrollToPercentHorizontal(
-				this.page / (this.pageCount - 1),
-				1
-			)
+			this.swapPage(this.page, this.page + 1)
 		}
+	}
+
+	swapPage(from: number, to: number) {
+		this.page = to
+
+		// Di chuyen so trang
+		var tmp = this.middleContainer.children[from]
+		this.middleContainer.removeChild(tmp, true)
+		this.middleContainer.insertChild(tmp, to)
+
+		// Di chuyen trang
+		cc.tween(this.node.getChildByName("game_layout_s"))
+			.to(
+				0.5,
+				{
+					x:
+						-(to / this.pageCount) *
+						this.node.getChildByName("game_layout_s").width,
+				},
+				{
+					easing: "smooth",
+				}
+			)
+			.start()
 	}
 
 	// LIFE-CYCLE CALLBACKS:
@@ -72,12 +91,18 @@ export default class GameManager extends cc.Component {
 			this.node.getChildByName("game_layout_s").addChild(obj)
 			this.arrPages.push(obj.getComponent(GameLayoutManager))
 		}
+
+		this.middleContainer = cc.find("navi/navi_bottom/middle_layout/middle")
+		for (let index = 1; index < this.pageCount; index++) {
+			var obj = cc.instantiate(this.pagesCirclePrefab)
+			this.middleContainer.addChild(obj)
+		}
 	}
 
 	start() {
 		this.page = 0
 		this.pageLabel = cc
-			.find("navi/navi_bottom/middle_layout/pages")
+			.find("navi/navi_bottom/middle_layout/middle/pages_circle_big/pages")
 			.getComponent(cc.Label)
 
 		this.pageView = this.node.getComponent(cc.PageView)
