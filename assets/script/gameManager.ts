@@ -76,6 +76,9 @@ export default class GameManager extends cc.Component {
 				}
 			)
 			.start()
+
+		// Xoa lua chon trang cu
+		this.arrPages[from].clearJustClick()
 	}
 
 	// LIFE-CYCLE CALLBACKS:
