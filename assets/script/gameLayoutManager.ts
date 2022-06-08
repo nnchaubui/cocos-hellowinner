@@ -180,7 +180,7 @@ export default class GameLayoutManager extends cc.Component {
 				)
 				var tos = this.lines.node.convertToNodeSpaceAR(
 					this.arrConnectTo[i].node.convertToWorldSpaceAR(
-						cc.v2(0, this.arrConnectTo[i].node.height / 3)
+						cc.v2(0, (this.arrConnectTo[i].node.height * 5) / 6)
 					)
 				)
 				this.lines.moveTo(froms.x, froms.y)
