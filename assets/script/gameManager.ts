@@ -26,6 +26,8 @@ export default class GameManager extends cc.Component {
 	arrPages: GameLayoutManager[] = []
 	middleContainer: cc.Node = null
 
+	game_data: cc.Asset = null
+
 	getScore() {
 		var score: number = 0
 		this.arrPages.forEach((e) => {
@@ -84,6 +86,11 @@ export default class GameManager extends cc.Component {
 	// LIFE-CYCLE CALLBACKS:
 
 	onLoad() {
+		// Khu load resources
+		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
+			this.game_data = json
+		})
+		
 		this.pageCount = Math.max(
 			Math.min(this.pageCount, GameManager.RANG_LENGTH_PAGE.y),
 			GameManager.RANG_LENGTH_PAGE.x
