@@ -23,14 +23,15 @@ export default class GameManager extends cc.Component {
 	page: number
 	pageView: cc.PageView
 	pageLabel: cc.Label
-	arrPages: GameLayoutManager[] = []
+	arrPagesManager: GameLayoutManager[] = []
+	arrPages: cc.Node[] = []
 	middleContainer: cc.Node = null
 
 	game_data: cc.Asset = null
 
 	getScore() {
 		var score: number = 0
-		this.arrPages.forEach((e) => {
+		this.arrPagesManager.forEach((e) => {
 			score += e.getScore
 		})
 		return score
@@ -38,7 +39,7 @@ export default class GameManager extends cc.Component {
 
 	getTotalScore() {
 		var score: number = 0
-		this.arrPages.forEach((e) => {
+		this.arrPagesManager.forEach((e) => {
 			score += e.getTotalScore
 		})
 		return score
@@ -64,23 +65,11 @@ export default class GameManager extends cc.Component {
 		this.middleContainer.removeChild(tmp, true)
 		this.middleContainer.insertChild(tmp, to)
 
-		// Di chuyen trang
-		cc.tween(this.node.getChildByName("game_layout_s"))
-			.to(
-				0.5,
-				{
-					x:
-						-(to / this.pageCount) *
-						this.node.getChildByName("game_layout_s").width,
-				},
-				{
-					easing: "smooth",
-				}
-			)
-			.start()
+		this.node.getChildByName("game_layout_s").removeAllChildren()
+		this.node.getChildByName("game_layout_s").addChild(this.arrPages[to])
 
 		// Xoa lua chon trang cu
-		this.arrPages[from].clearJustClick()
+		this.arrPagesManager[from].clearJustClick()
 	}
 
 	// LIFE-CYCLE CALLBACKS:
@@ -90,7 +79,7 @@ export default class GameManager extends cc.Component {
 		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
 			this.game_data = json
 		})
-		
+
 		this.pageCount = Math.max(
 			Math.min(this.pageCount, GameManager.RANG_LENGTH_PAGE.y),
 			GameManager.RANG_LENGTH_PAGE.x
@@ -98,9 +87,10 @@ export default class GameManager extends cc.Component {
 		for (let index = 0; index < this.pageCount; index++) {
 			var obj = cc.instantiate(this.gameLayoutPrefab)
 			obj.getComponent(GameLayoutManager).lengthAnswer = index + 1
-			this.node.getChildByName("game_layout_s").addChild(obj)
-			this.arrPages.push(obj.getComponent(GameLayoutManager))
+			this.arrPages.push(obj)
+			this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
 		}
+		this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
 
 		this.middleContainer = cc.find("navi/navi_bottom/middle_layout/middle")
 		for (let index = 1; index < this.pageCount; index++) {
