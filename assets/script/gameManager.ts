@@ -23,7 +23,7 @@ export default class GameManager extends cc.Component {
 	arrPagesManager: GameLayoutManager[] = []
 	arrPages: cc.Node[] = []
 
-	game_data: cc.Asset = null
+	game_data: cc.JsonAsset = null
 
 	getScore() {
 		var score: number = 0
@@ -70,20 +70,19 @@ export default class GameManager extends cc.Component {
 	onLoad() {
 		// Khu load resources
 		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
-			this.game_data = json
-		})
+			this.game_data = json as cc.JsonAsset
+			var arrgames: any[] = this.game_data.json.data.items
 
-		this.pageCount = Math.max(
-			Math.min(this.pageCount, GameManager.RANG_LENGTH_PAGE.y),
-			GameManager.RANG_LENGTH_PAGE.x
-		)
-		for (let index = 0; index < this.pageCount; index++) {
-			var obj = cc.instantiate(this.gameLayoutPrefab)
-			obj.getComponent(GameLayoutManager).lengthAnswer = index + 1
-			this.arrPages.push(obj)
-			this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
-		}
-		this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
+			arrgames.forEach((arrgame) => {
+				var obj = cc.instantiate(this.gameLayoutPrefab)
+				obj.getComponent(GameLayoutManager).data = JSON.parse(arrgame.jsonData)
+				this.node.getChildByName("game_layout_s").addChild(obj)
+			  this.arrPages.push(obj)
+			  this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
+			})
+      this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
+			this.pageCount = arrgames.length
+		})
 	}
 
 	start() {
