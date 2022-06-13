@@ -96,12 +96,12 @@ export default class GameLayoutManager extends cc.Component {
 		}
 
 		// Tao ket noi giua tang tren va tang duoi
-		if (this.arrConnectTo[b_from.id] == b_to) {
+		if (this.arrConnectTo[b_from.Index] == b_to) {
 			// Cung diem den? Xoa.
-			this.arrConnectTo[b_from.id] = null
+			this.arrConnectTo[b_from.Index] = null
 		} else {
 			// Khac diem den? ok diem den moi.
-			this.arrConnectTo[b_from.id] = b_to
+			this.arrConnectTo[b_from.Index] = b_to
 		}
 		this.clearJustClick()
 	}

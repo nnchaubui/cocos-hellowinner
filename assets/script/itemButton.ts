@@ -22,7 +22,7 @@ export default class ItemButton extends cc.Component {
 	Text: null
 
 
-	id: number = null
+	Index: number = null
 	type: string = null
 	manager: GameLayoutManager = null
 
@@ -45,7 +45,7 @@ export default class ItemButton extends cc.Component {
 		this.Spine = this.data.Spine
 		this.Text = this.data.Text
 
-		this.id = this.data.Index
+		this.Index = this.data.Index
 	}
 
 	onLoad() {

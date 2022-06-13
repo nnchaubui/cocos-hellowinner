@@ -14,7 +14,7 @@ export default class ItemQuestion extends ItemButton {
 	type = "question"
 
 	clickItem() {
-		this.manager.onItemClick(true, this.id)
+		this.manager.onItemClick(true, this.Index)
 	}
 	// update (dt) {}
 }
