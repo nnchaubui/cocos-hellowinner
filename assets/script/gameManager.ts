@@ -76,11 +76,11 @@ export default class GameManager extends cc.Component {
 			arrgames.forEach((arrgame) => {
 				var obj = cc.instantiate(this.gameLayoutPrefab)
 				obj.getComponent(GameLayoutManager).data = JSON.parse(arrgame.jsonData)
-				this.node.getChildByName("game_layout_s").addChild(obj)
-			  this.arrPages.push(obj)
-			  this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
+				// this.node.getChildByName("game_layout_s").addChild(obj)
+				this.arrPages.push(obj)
+				this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
 			})
-      this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
+			this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
 			this.pageCount = arrgames.length
 		})
 	}
