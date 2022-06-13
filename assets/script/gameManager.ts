@@ -26,7 +26,7 @@ export default class GameManager extends cc.Component {
 	arrPages: GameLayoutManager[] = []
 	middleContainer: cc.Node = null
 
-	game_data: cc.Asset = null
+	game_data: cc.JsonAsset = null
 
 	getScore() {
 		var score: number = 0
@@ -88,7 +88,7 @@ export default class GameManager extends cc.Component {
 	onLoad() {
 		// Khu load resources
 		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
-			this.game_data = json
+			this.game_data = json as cc.JsonAsset
 		})
 		
 		this.pageCount = Math.max(
@@ -115,7 +115,7 @@ export default class GameManager extends cc.Component {
 			.find("navi/navi_bottom/middle_layout/middle/pages_circle_big/pages")
 			.getComponent(cc.Label)
 
-		this.pageView = this.node.getComponent(cc.PageView)
+		this.pageView = this.node.getComponent(cc.PageView)		
 	}
 
 	update(_dt: any) {
