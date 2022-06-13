@@ -43,16 +43,10 @@ export default class GameManager extends cc.Component {
 
 	onPreviousClick() {
 		this.swapPage(this.page, (this.page + this.pageCount - 1) % this.pageCount)
-		// if (this.page > 0) {
-		// this.swapPage(this.page, this.page - 1)
-		// }
 	}
 
 	onNextClick() {
 		this.swapPage(this.page, (this.page + 1) % this.pageCount)
-		// if (this.page < this.pageCount - 1) {
-		// this.swapPage(this.page, this.page + 1)
-		// }
 	}
 
 	swapPage(from: number, to: number) {
@@ -76,7 +70,6 @@ export default class GameManager extends cc.Component {
 			arrgames.forEach((arrgame) => {
 				var obj = cc.instantiate(this.gameLayoutPrefab)
 				obj.getComponent(GameLayoutManager).data = JSON.parse(arrgame.jsonData)
-				// this.node.getChildByName("game_layout_s").addChild(obj)
 				this.arrPages.push(obj)
 				this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
 			})
