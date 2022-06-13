@@ -89,24 +89,22 @@ export default class GameManager extends cc.Component {
 		// Khu load resources
 		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
 			this.game_data = json as cc.JsonAsset
-		})
-		
-		this.pageCount = Math.max(
-			Math.min(this.pageCount, GameManager.RANG_LENGTH_PAGE.y),
-			GameManager.RANG_LENGTH_PAGE.x
-		)
-		for (let index = 0; index < this.pageCount; index++) {
-			var obj = cc.instantiate(this.gameLayoutPrefab)
-			obj.getComponent(GameLayoutManager).lengthAnswer = index + 1
-			this.node.getChildByName("game_layout_s").addChild(obj)
-			this.arrPages.push(obj.getComponent(GameLayoutManager))
-		}
+			var arrgames: any[] = this.game_data.json.data.items
 
-		this.middleContainer = cc.find("navi/navi_bottom/middle_layout/middle")
-		for (let index = 1; index < this.pageCount; index++) {
-			var obj = cc.instantiate(this.pagesCirclePrefab)
-			this.middleContainer.addChild(obj)
-		}
+			arrgames.forEach((arrgame) => {
+				var obj = cc.instantiate(this.gameLayoutPrefab)
+				obj.getComponent(GameLayoutManager).data = JSON.parse(arrgame.jsonData)
+				this.node.getChildByName("game_layout_s").addChild(obj)
+				this.arrPages.push(obj.getComponent(GameLayoutManager))
+			})
+			this.pageCount = arrgames.length
+
+			this.middleContainer = cc.find("navi/navi_bottom/middle_layout/middle")
+			for (let index = 1; index < this.pageCount; index++) {
+				var obj = cc.instantiate(this.pagesCirclePrefab)
+				this.middleContainer.addChild(obj)
+			}
+		})
 	}
 
 	start() {
@@ -115,7 +113,7 @@ export default class GameManager extends cc.Component {
 			.find("navi/navi_bottom/middle_layout/middle/pages_circle_big/pages")
 			.getComponent(cc.Label)
 
-		this.pageView = this.node.getComponent(cc.PageView)		
+		this.pageView = this.node.getComponent(cc.PageView)
 	}
 
 	update(_dt: any) {
