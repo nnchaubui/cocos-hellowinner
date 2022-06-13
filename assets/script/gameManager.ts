@@ -15,17 +15,13 @@ export default class GameManager extends cc.Component {
 
 	@property(cc.Prefab)
 	gameLayoutPrefab: cc.Prefab = null
-	@property(cc.Prefab)
-	pagesCirclePrefab: cc.Prefab = null
 
 	@property
 	pageCount: number = 5
 	page: number
-	pageView: cc.PageView
 	pageLabel: cc.Label
 	arrPagesManager: GameLayoutManager[] = []
 	arrPages: cc.Node[] = []
-	middleContainer: cc.Node = null
 
 	game_data: cc.Asset = null
 
@@ -46,24 +42,21 @@ export default class GameManager extends cc.Component {
 	}
 
 	onPreviousClick() {
-		if (this.page > 0) {
-			this.swapPage(this.page, this.page - 1)
-		}
+		this.swapPage(this.page, (this.page + this.pageCount - 1) % this.pageCount)
+		// if (this.page > 0) {
+		// this.swapPage(this.page, this.page - 1)
+		// }
 	}
 
 	onNextClick() {
-		if (this.page < this.pageCount - 1) {
-			this.swapPage(this.page, this.page + 1)
-		}
+		this.swapPage(this.page, (this.page + 1) % this.pageCount)
+		// if (this.page < this.pageCount - 1) {
+		// this.swapPage(this.page, this.page + 1)
+		// }
 	}
 
 	swapPage(from: number, to: number) {
 		this.page = to
-
-		// Di chuyen so trang
-		var tmp = this.middleContainer.children[from]
-		this.middleContainer.removeChild(tmp, true)
-		this.middleContainer.insertChild(tmp, to)
 
 		this.node.getChildByName("game_layout_s").removeAllChildren()
 		this.node.getChildByName("game_layout_s").addChild(this.arrPages[to])
@@ -91,12 +84,6 @@ export default class GameManager extends cc.Component {
 			this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
 		}
 		this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
-
-		this.middleContainer = cc.find("navi/navi_bottom/middle_layout/middle")
-		for (let index = 1; index < this.pageCount; index++) {
-			var obj = cc.instantiate(this.pagesCirclePrefab)
-			this.middleContainer.addChild(obj)
-		}
 	}
 
 	start() {
@@ -104,8 +91,6 @@ export default class GameManager extends cc.Component {
 		this.pageLabel = cc
 			.find("navi/navi_bottom/middle_layout/middle/pages_circle_big/pages")
 			.getComponent(cc.Label)
-
-		this.pageView = this.node.getComponent(cc.PageView)
 	}
 
 	update(_dt: any) {
