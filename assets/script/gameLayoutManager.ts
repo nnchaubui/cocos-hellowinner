@@ -41,8 +41,8 @@ export default class GameLayoutManager extends cc.Component {
 	public get getScore(): number {
 		// TODO score
 		var score: number = 0
-		this.arrConnectTo.forEach((element) => {
-			if (element != null) {
+		this.arrAnswer.forEach((element) => {
+			if (element.IsCorrect) {
 				score++
 			}
 		})
