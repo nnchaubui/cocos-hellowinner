@@ -21,6 +21,7 @@ export default class NewClass extends cc.Component {
 
 	times_up() {
 		this.is_times_up = true
+		this.label.string = "--:--"
 		cc.find("confirm").getComponent(Confirm).show("times_up")
 	}
 
