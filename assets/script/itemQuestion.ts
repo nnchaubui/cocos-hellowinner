@@ -13,6 +13,13 @@ const { ccclass } = cc._decorator
 export default class ItemQuestion extends ItemButton {
 	type = "question"
 
+	onLoad()
+	{
+		super.onLoad()
+		this.node.getChildByName("label").getComponent(cc.Label).string = this.Text
+	}
+	
+
 	clickItem() {
 		this.manager.onItemClick(true, this.Index)
 	}
