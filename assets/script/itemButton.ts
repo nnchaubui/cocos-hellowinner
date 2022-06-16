@@ -13,8 +13,8 @@ const { ccclass, property } = cc._decorator
 export default class ItemButton extends cc.Component {
 	data: any = null
 
-	Id: string =  "a1ae620e-591f-40ed-84b8-dde9c6fe5080"
-	Image: string =  "/images/Thumbnail/0x726cad1a4d674e5ba272b1a6e6cb79d3Chuacoten4.png"
+	Id: string =  ""
+	Image: string =  ""
 	IsCorrect: boolean = false
 	Json: null
 	Sound: string =  ""
