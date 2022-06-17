@@ -11,12 +11,6 @@ import ItemQuestion from "./itemQuestion"
 
 const { ccclass, property } = cc._decorator
 
-enum Colors {
-	Yellow,
-	Cyan,
-	Violet,
-	Pink,
-}
 
 @ccclass
 export default class Game1NManager extends cc.Component {
@@ -30,8 +24,7 @@ export default class Game1NManager extends cc.Component {
 
 	arrAnswer: ItemAnswer[] = []
 	arrQuestion: ItemQuestion[] = []
-	arrColors: Colors[] = []
-	arrConnectTo: ItemQuestion[] = []
+	arrConnectTo: number[] = []
 	data: any = null
 
 	just_click: ItemButton = null
@@ -42,11 +35,7 @@ export default class Game1NManager extends cc.Component {
 
 		var score: number = 0
 		for (var i = 0; i < this.arrAnswer.length; i++) {
-			if (this.arrAnswer[i].IsCorrect && this.arrConnectTo[i] != null) {
-				score++
-			} else if (!this.arrAnswer[i].IsCorrect && this.arrConnectTo[i] == null) {
-				score++
-			}
+			score += this.arrConnectTo[i] == this.arrAnswer[i].Solution ? 1 : 0
 		}
 
 		return score == this.getTotalScore
@@ -99,12 +88,12 @@ export default class Game1NManager extends cc.Component {
 		}
 
 		// Tao ket noi giua tang tren va tang duoi
-		if (this.arrConnectTo[b_from.Index] == b_to) {
+		if (this.arrConnectTo[b_from.Index] == b_to.Index) {
 			// Cung diem den? Xoa.
-			this.arrConnectTo[b_from.Index] = null
+			this.arrConnectTo[b_from.Index] = -1
 		} else {
 			// Khac diem den? ok diem den moi.
-			this.arrConnectTo[b_from.Index] = b_to
+			this.arrConnectTo[b_from.Index] = b_to.Index
 		}
 		this.clearJustClick()
 	}
@@ -154,15 +143,14 @@ export default class Game1NManager extends cc.Component {
 	}
 
 	start() {
-		this.arrColors = new Array(this.arrAnswer.length).fill(Colors.Yellow)
-		this.arrConnectTo = new Array(this.arrAnswer.length).fill(null)
+		this.arrConnectTo = new Array(this.arrAnswer.length).fill(-1)
 	}
 
 	update(_dt: number) {
 		//Ve duong day
 		this.lines.clear()
 		for (var i = 0; i < this.arrAnswer.length; i++) {
-			if (this.arrConnectTo[i] != null) {
+			if (this.arrConnectTo[i] != -1) {
 				// Ve duong noi tu answer[i].position den connectTo[answer[i]].position
 				var froms = this.lines.node.convertToNodeSpaceAR(
 					this.arrAnswer[i].node.convertToWorldSpaceAR(
@@ -170,8 +158,11 @@ export default class Game1NManager extends cc.Component {
 					)
 				)
 				var tos = this.lines.node.convertToNodeSpaceAR(
-					this.arrConnectTo[i].node.convertToWorldSpaceAR(
-						cc.v2(0, (this.arrConnectTo[i].node.height * 5) / 6)
+					this.arrQuestion[this.arrConnectTo[i]].node.convertToWorldSpaceAR(
+						cc.v2(
+							0,
+							(this.arrQuestion[this.arrConnectTo[i]].node.height * 5) / 6
+						)
 					)
 				)
 				this.lines.moveTo(froms.x, froms.y)

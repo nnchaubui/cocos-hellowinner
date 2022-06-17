@@ -20,7 +20,7 @@ export default class ItemButton extends cc.Component {
 	Sound: string =  ""
 	Spine: null
 	Text: null
-
+	Solution: number = null
 
 	Index: number = null
 	type: string = null
@@ -44,7 +44,7 @@ export default class ItemButton extends cc.Component {
 		this.Sound = this.data.Sound
 		this.Spine = this.data.Spine
 		this.Text = this.data.Text
-
+		this.Solution = this.data.Solution
 		this.Index = this.data.Index
 	}
 
