@@ -15,10 +15,24 @@ export default class ItemAnswer extends ItemButton {
 
 	loadData() {
 		super.loadData()
-		cc.resources.load(this.Image, cc.SpriteFrame, (_err, spr) => {
-			this.node.getChildByName("sprite").getComponent(cc.Sprite).spriteFrame =
-				spr as cc.SpriteFrame
-		})
+		if (this.Image.startsWith("https://")) {
+			cc.assetManager.loadRemote<cc.Texture2D>(
+				"https://i.imgur.com/md1pbW6.png",
+				(err, spr) => {
+					this.node
+						.getChildByName("mask")
+						.getChildByName("sprite")
+						.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(spr)
+				}
+			)
+		} else {
+			cc.resources.load(this.Image, cc.SpriteFrame, (_err, spr) => {
+				this.node
+					.getChildByName("mask")
+					.getChildByName("sprite")
+					.getComponent(cc.Sprite).spriteFrame = spr as cc.SpriteFrame
+			})
+		}
 	}
 
 	clickItem() {
