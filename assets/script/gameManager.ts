@@ -9,10 +9,17 @@ import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
 
+enum GameList {
+	GAME_1N = "3c5e8770-a6ab-48d4-ac4d-d6fd948aaf2a",
+	GAME_CHOICE = "hahahuhu-hehe-hihi-hoho-vuioilavui99",
+}
+
 @ccclass
 export default class GameManager extends cc.Component {
 	@property(cc.Prefab)
 	game1NLayoutPrefab: cc.Prefab = null
+	@property(cc.Prefab)
+	gameChoicePrefab: cc.Prefab = null
 
 	page: number
 	pageLabel: cc.Label
@@ -56,7 +63,9 @@ export default class GameManager extends cc.Component {
 		this.helpLabel.string = this.arrPagesManager[to].data.Title
 
 		// Xoa lua chon trang cu
-		this.arrPagesManager[from].clean()
+		if (from != null) {
+			this.arrPagesManager[from].clean()
+		}
 	}
 
 	// LIFE-CYCLE CALLBACKS:
@@ -68,13 +77,24 @@ export default class GameManager extends cc.Component {
 			var arrgames: any[] = this.game_data.data.items
 
 			arrgames.forEach((arrgame) => {
-				var obj = cc.instantiate(this.game1NLayoutPrefab)
+				var obj: cc.Node
+				switch (arrgame.gameId) {
+					case GameList.GAME_1N:
+						obj = cc.instantiate(this.game1NLayoutPrefab)
+						break
+					case GameList.GAME_CHOICE:
+						obj = cc.instantiate(this.gameChoicePrefab)
+						break
+					default:
+						obj = cc.instantiate(this.game1NLayoutPrefab)
+						break
+				}
 				obj.getComponent(MinigameManager).metadata = arrgame
+				this.node.addChild(obj)
 				this.arrPages.push(obj)
 				this.arrPagesManager.push(obj.getComponent(MinigameManager))
 			})
-			this.node.addChild(this.arrPages[0])
-			this.helpLabel.string = this.arrPagesManager[0].data.Title
+			this.swapPage(null, 0)
 		})
 	}
 

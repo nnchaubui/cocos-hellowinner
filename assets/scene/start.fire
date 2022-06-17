@@ -513,6 +513,9 @@
     "game1NLayoutPrefab": {
       "__uuid__": "eb93aedc-5c19-4f3e-a3a5-743c850155a0"
     },
+    "gameChoicePrefab": {
+      "__uuid__": "94783f6d-bfd8-45f6-9f97-d9982c04eb91"
+    },
     "_id": "a2rRiXKrVIboMahkBrNt8s"
   },
   {
