@@ -8,12 +8,12 @@
 import ItemAnswer from "./itemAnswer"
 import ItemButton from "./itemButton"
 import ItemQuestion from "./itemQuestion"
+import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
 
-
 @ccclass
-export default class Game1NManager extends cc.Component {
+export default class Game1NManager extends MinigameManager {
 	static readonly RANGE_LENGTH_ANSWER: cc.Vec2 = cc.v2(1, 5)
 	static readonly RANGE_LENGTH_QUESTION: cc.Vec2 = cc.v2(1, 3)
 
@@ -25,7 +25,6 @@ export default class Game1NManager extends cc.Component {
 	arrAnswer: ItemAnswer[] = []
 	arrQuestion: ItemQuestion[] = []
 	arrConnectTo: number[] = []
-	data: any = null
 
 	just_click: ItemButton = null
 	lines: cc.Graphics = null
@@ -43,6 +42,10 @@ export default class Game1NManager extends cc.Component {
 
 	public get getTotalScore(): number {
 		return this.arrAnswer.length
+	}
+
+	public clean(): void {
+		this.clearJustClick()
 	}
 
 	// Gia tri moi cho juct_click
@@ -113,6 +116,7 @@ export default class Game1NManager extends cc.Component {
 	}
 
 	onLoad() {
+		super.onLoad()
 		this.lines = this.node.getChildByName("line").getComponent(cc.Graphics)
 		var answerContainer = this.node
 			.getChildByName("game_layout")

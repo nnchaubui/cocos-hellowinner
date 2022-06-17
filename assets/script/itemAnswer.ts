@@ -13,8 +13,8 @@ const { ccclass } = cc._decorator
 export default class ItemAnswer extends ItemButton {
 	type = "answer"
 
-	loadData() {
-		super.loadData()
+	onLoad() {
+		super.onLoad()
 		if (this.Image.startsWith("https://")) {
 			cc.assetManager.loadRemote<cc.Texture2D>(
 				"https://i.imgur.com/md1pbW6.png",

@@ -5,14 +5,12 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import Game1NManager from "./game1NManager"
+import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
 
 @ccclass
 export default class GameManager extends cc.Component {
-	static readonly RANG_LENGTH_PAGE: cc.Vec2 = cc.v2(1, 5)
-
 	@property(cc.Prefab)
 	game1NLayoutPrefab: cc.Prefab = null
 
@@ -20,10 +18,10 @@ export default class GameManager extends cc.Component {
 	pageLabel: cc.Label
 	helpLabel: cc.Label
 
-	arrPagesManager: Game1NManager[] = []
+	arrPagesManager: MinigameManager[] = []
 	arrPages: cc.Node[] = []
 
-	game_data: cc.JsonAsset = null
+	game_data: any = null
 
 	getScore() {
 		var score: number = 0
@@ -58,7 +56,7 @@ export default class GameManager extends cc.Component {
 		this.helpLabel.string = this.arrPagesManager[to].data.Title
 
 		// Xoa lua chon trang cu
-		this.arrPagesManager[from].clearJustClick()
+		this.arrPagesManager[from].clean()
 	}
 
 	// LIFE-CYCLE CALLBACKS:
@@ -66,16 +64,17 @@ export default class GameManager extends cc.Component {
 	onLoad() {
 		// Khu load resources
 		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
-			this.game_data = json as cc.JsonAsset
-			var arrgames: any[] = this.game_data.json.data.items
+			this.game_data = (json as cc.JsonAsset).json
+			var arrgames: any[] = this.game_data.data.items
 
 			arrgames.forEach((arrgame) => {
 				var obj = cc.instantiate(this.game1NLayoutPrefab)
-				obj.getComponent(Game1NManager).data = JSON.parse(arrgame.jsonData)
+				obj.getComponent(MinigameManager).metadata = arrgame
 				this.arrPages.push(obj)
-				this.arrPagesManager.push(obj.getComponent(Game1NManager))
+				this.arrPagesManager.push(obj.getComponent(MinigameManager))
 			})
 			this.node.addChild(this.arrPages[0])
+			this.helpLabel.string = this.arrPagesManager[0].data.Title
 		})
 	}
 
