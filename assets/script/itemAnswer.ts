@@ -13,8 +13,30 @@ const { ccclass } = cc._decorator
 export default class ItemAnswer extends ItemButton {
 	type = "answer"
 
+	onLoad() {
+		super.onLoad()
+		if (this.Image.startsWith("https://")) {
+			cc.assetManager.loadRemote<cc.Texture2D>(
+				"https://i.imgur.com/md1pbW6.png",
+				(err, spr) => {
+					this.node
+						.getChildByName("mask")
+						.getChildByName("sprite")
+						.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(spr)
+				}
+			)
+		} else {
+			cc.resources.load(this.Image, cc.SpriteFrame, (_err, spr) => {
+				this.node
+					.getChildByName("mask")
+					.getChildByName("sprite")
+					.getComponent(cc.Sprite).spriteFrame = spr as cc.SpriteFrame
+			})
+		}
+	}
+
 	clickItem() {
-		this.manager.onItemClick(false, this.id)
+		this.manager.onItemClick(false, this.Index)
 	}
 	// update (dt) {}
 }

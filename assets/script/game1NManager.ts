@@ -8,25 +8,15 @@
 import ItemAnswer from "./itemAnswer"
 import ItemButton from "./itemButton"
 import ItemQuestion from "./itemQuestion"
+import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
 
-enum Colors {
-	Yellow,
-	Cyan,
-	Violet,
-	Pink,
-}
-
 @ccclass
-export default class GameLayoutManager extends cc.Component {
+export default class Game1NManager extends MinigameManager {
 	static readonly RANGE_LENGTH_ANSWER: cc.Vec2 = cc.v2(1, 5)
 	static readonly RANGE_LENGTH_QUESTION: cc.Vec2 = cc.v2(1, 3)
 
-	@property
-	lengthAnswer: number = 4
-	@property
-	lengthQuestion: number = 2
 	@property(cc.Prefab)
 	answerPrefab: cc.Prefab = null
 	@property(cc.Prefab)
@@ -34,26 +24,28 @@ export default class GameLayoutManager extends cc.Component {
 
 	arrAnswer: ItemAnswer[] = []
 	arrQuestion: ItemQuestion[] = []
-	arrColors: Colors[] = []
-	arrConnectTo: ItemQuestion[] = []
-	score: number = 0
+	arrConnectTo: number[] = []
 
 	just_click: ItemButton = null
 	lines: cc.Graphics = null
 
-	public get getScore(): number {
-		// TODO score
+	public get getScore(): boolean {
+		if (this.arrAnswer.length == 0) return false
+
 		var score: number = 0
-		this.arrConnectTo.forEach((element) => {
-			if (element != null) {
-				score++
-			}
-		})
-		return score
+		for (var i = 0; i < this.arrAnswer.length; i++) {
+			score += this.arrConnectTo[i] == this.arrAnswer[i].Solution ? 1 : 0
+		}
+
+		return score == this.getTotalScore
 	}
 
 	public get getTotalScore(): number {
-		return this.lengthAnswer
+		return this.arrAnswer.length
+	}
+
+	public clean(): void {
+		this.clearJustClick()
 	}
 
 	// Gia tri moi cho juct_click
@@ -99,12 +91,12 @@ export default class GameLayoutManager extends cc.Component {
 		}
 
 		// Tao ket noi giua tang tren va tang duoi
-		if (this.arrConnectTo[b_from.id] == b_to) {
+		if (this.arrConnectTo[b_from.Index] == b_to.Index) {
 			// Cung diem den? Xoa.
-			this.arrConnectTo[b_from.id] = null
+			this.arrConnectTo[b_from.Index] = -1
 		} else {
 			// Khac diem den? ok diem den moi.
-			this.arrConnectTo[b_from.id] = b_to
+			this.arrConnectTo[b_from.Index] = b_to.Index
 		}
 		this.clearJustClick()
 	}
@@ -124,15 +116,7 @@ export default class GameLayoutManager extends cc.Component {
 	}
 
 	onLoad() {
-		this.lengthAnswer = Math.max(
-			Math.min(this.lengthAnswer, GameLayoutManager.RANGE_LENGTH_ANSWER.y),
-			GameLayoutManager.RANGE_LENGTH_ANSWER.x
-		)
-		this.lengthQuestion = Math.max(
-			Math.min(this.lengthQuestion, GameLayoutManager.RANGE_LENGTH_QUESTION.y),
-			GameLayoutManager.RANGE_LENGTH_QUESTION.x
-		)
-
+		super.onLoad()
 		this.lines = this.node.getChildByName("line").getComponent(cc.Graphics)
 		var answerContainer = this.node
 			.getChildByName("game_layout")
@@ -145,33 +129,32 @@ export default class GameLayoutManager extends cc.Component {
 		this.node.width = cc.find("Canvas").width
 
 		// Chen prefab va khoi tao gia tri //
-		for (var i = 0; i < this.lengthAnswer; i++) {
-			var opgiech = cc.instantiate(this.answerPrefab)
-			opgiech.getComponent(ItemAnswer).id = i
-			opgiech.getComponent(ItemAnswer).manager = this
-			answerContainer.addChild(opgiech)
-			this.arrAnswer.push(opgiech.getComponent(ItemAnswer))
-		}
+		this.data.answer.forEach((ans: any) => {
+			var obj = cc.instantiate(this.answerPrefab)
+			obj.getComponent(ItemAnswer).data = ans
+			obj.getComponent(ItemAnswer).manager = this
+			answerContainer.addChild(obj)
+			this.arrAnswer.push(obj.getComponent(ItemAnswer))
+		})
 
-		for (var i = 0; i < this.lengthQuestion; i++) {
-			var opgiech = cc.instantiate(this.questionPrefab)
-			opgiech.getComponent(ItemQuestion).id = i
-			opgiech.getComponent(ItemQuestion).manager = this
-			questionContainer.addChild(opgiech)
-			this.arrQuestion.push(opgiech.getComponent(ItemQuestion))
-		}
+		this.data.question.forEach((ques: any) => {
+			var obj = cc.instantiate(this.questionPrefab)
+			obj.getComponent(ItemQuestion).data = ques
+			obj.getComponent(ItemQuestion).manager = this
+			questionContainer.addChild(obj)
+			this.arrQuestion.push(obj.getComponent(ItemQuestion))
+		})
 	}
 
 	start() {
-		this.arrColors = new Array(this.lengthAnswer).fill(Colors.Yellow)
-		this.arrConnectTo = new Array(this.lengthAnswer).fill(null)
+		this.arrConnectTo = new Array(this.arrAnswer.length).fill(-1)
 	}
 
 	update(_dt: number) {
 		//Ve duong day
 		this.lines.clear()
 		for (var i = 0; i < this.arrAnswer.length; i++) {
-			if (this.arrConnectTo[i] != null) {
+			if (this.arrConnectTo[i] != -1) {
 				// Ve duong noi tu answer[i].position den connectTo[answer[i]].position
 				var froms = this.lines.node.convertToNodeSpaceAR(
 					this.arrAnswer[i].node.convertToWorldSpaceAR(
@@ -179,8 +162,11 @@ export default class GameLayoutManager extends cc.Component {
 					)
 				)
 				var tos = this.lines.node.convertToNodeSpaceAR(
-					this.arrConnectTo[i].node.convertToWorldSpaceAR(
-						cc.v2(0, this.arrConnectTo[i].node.height / 3)
+					this.arrQuestion[this.arrConnectTo[i]].node.convertToWorldSpaceAR(
+						cc.v2(
+							0,
+							(this.arrQuestion[this.arrConnectTo[i]].node.height * 5) / 6
+						)
 					)
 				)
 				this.lines.moveTo(froms.x, froms.y)
