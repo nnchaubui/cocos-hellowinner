@@ -38,6 +38,8 @@ export default class GameLayoutManager extends cc.Component {
 	lines: cc.Graphics = null
 
 	public get getScore(): boolean {
+		if (this.arrAnswer.length == 0) return false
+
 		var score: number = 0
 		for (var i = 0; i < this.arrAnswer.length; i++) {
 			if (this.arrAnswer[i].IsCorrect && this.arrConnectTo[i] != null) {
