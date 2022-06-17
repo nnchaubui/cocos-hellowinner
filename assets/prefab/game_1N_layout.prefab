@@ -710,8 +710,6 @@
       "__id__": 1
     },
     "_enabled": true,
-    "lengthAnswer": 5,
-    "lengthQuestion": 3,
     "answerPrefab": {
       "__uuid__": "d239304a-e3dd-486c-9e8b-77c21a406635"
     },

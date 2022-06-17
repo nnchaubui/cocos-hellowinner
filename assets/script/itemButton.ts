@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import GameLayoutManager from "./gameLayoutManager"
+import Game1NManager from "./game1NManager"
 
 const { ccclass, property } = cc._decorator
 
@@ -24,7 +24,7 @@ export default class ItemButton extends cc.Component {
 
 	Index: number = null
 	type: string = null
-	manager: GameLayoutManager = null
+	manager: Game1NManager = null
 
 	toggle: cc.Toggle
 	frame: cc.SpriteFrame

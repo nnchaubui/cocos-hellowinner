@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import GameLayoutManager from "./gameLayoutManager"
+import Game1NManager from "./game1NManager"
 
 const { ccclass, property } = cc._decorator
 
@@ -14,13 +14,13 @@ export default class GameManager extends cc.Component {
 	static readonly RANG_LENGTH_PAGE: cc.Vec2 = cc.v2(1, 5)
 
 	@property(cc.Prefab)
-	gameLayoutPrefab: cc.Prefab = null
+	game1NLayoutPrefab: cc.Prefab = null
 
 	page: number
 	pageLabel: cc.Label
 	helpLabel: cc.Label
 
-	arrPagesManager: GameLayoutManager[] = []
+	arrPagesManager: Game1NManager[] = []
 	arrPages: cc.Node[] = []
 
 	game_data: cc.JsonAsset = null
@@ -70,10 +70,10 @@ export default class GameManager extends cc.Component {
 			var arrgames: any[] = this.game_data.json.data.items
 
 			arrgames.forEach((arrgame) => {
-				var obj = cc.instantiate(this.gameLayoutPrefab)
-				obj.getComponent(GameLayoutManager).data = JSON.parse(arrgame.jsonData)
+				var obj = cc.instantiate(this.game1NLayoutPrefab)
+				obj.getComponent(Game1NManager).data = JSON.parse(arrgame.jsonData)
 				this.arrPages.push(obj)
-				this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
+				this.arrPagesManager.push(obj.getComponent(Game1NManager))
 			})
 			this.node.addChild(this.arrPages[0])
 		})

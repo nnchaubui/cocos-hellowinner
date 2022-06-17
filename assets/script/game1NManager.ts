@@ -19,7 +19,7 @@ enum Colors {
 }
 
 @ccclass
-export default class GameLayoutManager extends cc.Component {
+export default class Game1NManager extends cc.Component {
 	static readonly RANGE_LENGTH_ANSWER: cc.Vec2 = cc.v2(1, 5)
 	static readonly RANGE_LENGTH_QUESTION: cc.Vec2 = cc.v2(1, 3)
 
