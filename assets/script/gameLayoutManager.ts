@@ -32,21 +32,22 @@ export default class GameLayoutManager extends cc.Component {
 	arrQuestion: ItemQuestion[] = []
 	arrColors: Colors[] = []
 	arrConnectTo: ItemQuestion[] = []
-	score: number = 0
 	data: any = null
 
 	just_click: ItemButton = null
 	lines: cc.Graphics = null
 
-	public get getScore(): number {
-		// TODO score
+	public get getScore(): boolean {
 		var score: number = 0
-		this.arrAnswer.forEach((element) => {
-			if (element.IsCorrect) {
+		for (var i = 0; i < this.arrAnswer.length; i++) {
+			if (this.arrAnswer[i].IsCorrect && this.arrConnectTo[i] != null) {
+				score++
+			} else if (!this.arrAnswer[i].IsCorrect && this.arrConnectTo[i] == null) {
 				score++
 			}
-		})
-		return score
+		}
+
+		return score == this.getTotalScore
 	}
 
 	public get getTotalScore(): number {

@@ -16,10 +16,10 @@ export default class GameManager extends cc.Component {
 	@property(cc.Prefab)
 	gameLayoutPrefab: cc.Prefab = null
 
-	@property
-	pageCount: number = 5
 	page: number
 	pageLabel: cc.Label
+	helpLabel: cc.Label
+
 	arrPagesManager: GameLayoutManager[] = []
 	arrPages: cc.Node[] = []
 
@@ -28,32 +28,34 @@ export default class GameManager extends cc.Component {
 	getScore() {
 		var score: number = 0
 		this.arrPagesManager.forEach((e) => {
-			score += e.getScore
+			score += e.getScore ? 1 : 0
 		})
 		return score
 	}
 
 	getTotalScore() {
-		var score: number = 0
-		this.arrPagesManager.forEach((e) => {
-			score += e.getTotalScore
-		})
-		return score
+		return this.arrPagesManager.length
 	}
 
 	onPreviousClick() {
-		this.swapPage(this.page, (this.page + this.pageCount - 1) % this.pageCount)
+		this.swapPage(
+			this.page,
+			(this.page + this.arrPagesManager.length - 1) %
+				this.arrPagesManager.length
+		)
 	}
 
 	onNextClick() {
-		this.swapPage(this.page, (this.page + 1) % this.pageCount)
+		this.swapPage(this.page, (this.page + 1) % this.arrPagesManager.length)
 	}
 
 	swapPage(from: number, to: number) {
 		this.page = to
 
-		this.node.getChildByName("game_layout_s").removeAllChildren()
-		this.node.getChildByName("game_layout_s").addChild(this.arrPages[to])
+		// Chuyen trang
+		this.node.removeAllChildren()
+		this.node.addChild(this.arrPages[to])
+		this.helpLabel.string = this.arrPagesManager[to].data.Title
 
 		// Xoa lua chon trang cu
 		this.arrPagesManager[from].clearJustClick()
@@ -73,8 +75,7 @@ export default class GameManager extends cc.Component {
 				this.arrPages.push(obj)
 				this.arrPagesManager.push(obj.getComponent(GameLayoutManager))
 			})
-			this.node.getChildByName("game_layout_s").addChild(this.arrPages[0])
-			this.pageCount = arrgames.length
+			this.node.addChild(this.arrPages[0])
 		})
 	}
 
@@ -83,9 +84,12 @@ export default class GameManager extends cc.Component {
 		this.pageLabel = cc
 			.find("navi/navi_bottom/middle_layout/middle/pages_circle_big/pages")
 			.getComponent(cc.Label)
+		this.helpLabel = cc
+			.find("navi/help/popup/help_label")
+			.getComponent(cc.Label)
 	}
 
 	update(_dt: any) {
-		this.pageLabel.string = this.page + 1 + "/" + this.pageCount
+		this.pageLabel.string = this.page + 1 + "/" + this.arrPagesManager.length
 	}
 }
