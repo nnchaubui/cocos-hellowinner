@@ -10,7 +10,7 @@ import Game1NManager from "./game1NManager"
 const { ccclass, property } = cc._decorator
 
 @ccclass
-export default class ItemButton extends cc.Component {
+export default abstract class ItemButton extends cc.Component {
 	private _data: any = null
 	public get data(): any {
 		return this._data
@@ -60,6 +60,7 @@ export default class ItemButton extends cc.Component {
 	@property(cc.SpriteFrame)
 	uncheckFrame: cc.SpriteFrame = null
 
+	public abstract exportData(): any
 
 	onLoad() {
 		this.toggle = this.node.getComponent(cc.Toggle)

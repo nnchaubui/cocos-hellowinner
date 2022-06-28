@@ -14,6 +14,16 @@ const { ccclass } = cc._decorator
 export default class ItemAnswer extends ItemButton {
 	type = "answer"
 
+	public exportData(): any {
+		const ansData: any = {}
+		ansData.Id = this.Id
+		ansData.Image = this.Image
+		ansData.Index = this.Index
+		ansData.Sound = this.Sound
+		ansData.Solution = this.Solution
+		return ansData
+	}
+
 	onLoad() {
 		super.onLoad()
 		cc.assetManager.loadRemote<cc.Texture2D>(

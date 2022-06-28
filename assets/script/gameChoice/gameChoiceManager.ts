@@ -13,6 +13,8 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class GameChoiceManager extends MinigameManager {
 	protected _gameId: string = GameList.GAME_CHOICE
+	arrAnswer: any[]
+	arrQuestion: any[]
 
 	public get getScore(): boolean {
 		return true

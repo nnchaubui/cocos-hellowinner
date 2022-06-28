@@ -13,6 +13,16 @@ const { ccclass } = cc._decorator
 export default class ItemQuestion extends ItemButton {
 	type = "question"
 
+	public exportData(): any {
+		const quesData: any = {}
+		quesData.Id = this.Id
+		quesData.Text = this.Text
+		quesData.Image = this.Image
+		quesData.Index = this.Index
+		quesData.Sound = this.Sound
+		return quesData
+	}
+
 	onLoad()
 	{
 		super.onLoad()

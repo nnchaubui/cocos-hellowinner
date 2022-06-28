@@ -9,6 +9,8 @@ const { ccclass } = cc._decorator
 
 @ccclass
 export default abstract class MinigameManager extends cc.Component {
+	abstract arrAnswer: any[]
+	abstract arrQuestion: any[]
 
 	protected abstract _gameId: string
 	private _metadata: any = null
@@ -69,6 +71,22 @@ export default abstract class MinigameManager extends cc.Component {
 	}
 
 	public clean /* Don dep tan du */() {}
+
+	/** Xuat du lieu ra de gui */
+	public exportData() {
+		const pageData: any = {}
+		pageData.IdItem = this.data.IdItem
+		pageData.Title = this.data.Title
+		pageData.question = []
+		this.arrQuestion.forEach((ques) => {
+			pageData.question.push(ques.exportData())
+		})
+		pageData.answer = []
+		this.arrAnswer.forEach((ans) => {
+			pageData.answer.push(ans.exportData())
+		})
+		return pageData
+	}
 
 	// LIFE-CYCLE CALLBACKS:
 
