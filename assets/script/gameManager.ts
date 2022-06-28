@@ -9,8 +9,8 @@ import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
 
-enum GameList {
-	GAME_1N = "3c5e8770-a6ab-48d4-ac4d-d6fd948aaf2a",
+export enum GameList {
+	GAME_1N = "8eabc86e-f24d-401a-8fe6-d23111adb253",
 	GAME_CHOICE = "hahahuhu-hehe-hihi-hoho-vuioilavui99",
 }
 
