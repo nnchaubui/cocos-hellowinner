@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import ItemButton from "./itemButton"
+import MinigameManager from "./minigameManager"
 
 const { ccclass } = cc._decorator
 
@@ -15,24 +16,15 @@ export default class ItemAnswer extends ItemButton {
 
 	onLoad() {
 		super.onLoad()
-		if (this.Image.startsWith("https://")) {
-			cc.assetManager.loadRemote<cc.Texture2D>(
-				"https://i.imgur.com/md1pbW6.png",
-				(err, spr) => {
-					this.node
-						.getChildByName("mask")
-						.getChildByName("sprite")
-						.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(spr)
-				}
-			)
-		} else {
-			cc.resources.load(this.Image, cc.SpriteFrame, (_err, spr) => {
+		cc.assetManager.loadRemote<cc.Texture2D>(
+			MinigameManager.baseUrlFile + this.Image,
+			(err, spr) => {
 				this.node
 					.getChildByName("mask")
 					.getChildByName("sprite")
-					.getComponent(cc.Sprite).spriteFrame = spr as cc.SpriteFrame
-			})
-		}
+					.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(spr)
+			}
+		)
 	}
 
 	clickItem() {

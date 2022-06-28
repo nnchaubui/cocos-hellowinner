@@ -9,6 +9,8 @@ const { ccclass } = cc._decorator
 
 @ccclass
 export default class MinigameManager extends cc.Component {
+	static readonly baseUrlFile = "https://ctm-cms.myg.vn"
+
 	private _metadata: any = null
 	public get metadata(): any {
 		return this._metadata
