@@ -9,6 +9,7 @@ import ItemAnswer from "./itemAnswer"
 import ItemButton from "./itemButton"
 import ItemQuestion from "./itemQuestion"
 import MinigameManager from "../minigameManager"
+import {GameList} from "../gameManager"
 
 const { ccclass, property } = cc._decorator
 
@@ -16,6 +17,8 @@ const { ccclass, property } = cc._decorator
 export default class Game1NManager extends MinigameManager {
 	static readonly RANGE_LENGTH_ANSWER: cc.Vec2 = cc.v2(1, 5)
 	static readonly RANGE_LENGTH_QUESTION: cc.Vec2 = cc.v2(1, 3)
+
+	protected _gameId: string = GameList.GAME_1N
 
 	@property(cc.Prefab)
 	answerPrefab: cc.Prefab = null

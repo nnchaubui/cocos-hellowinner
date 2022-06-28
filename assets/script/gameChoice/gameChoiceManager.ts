@@ -5,12 +5,15 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { GameList } from "../gameManager"
 import MinigameManager from "../minigameManager"
 
 const { ccclass } = cc._decorator
 
 @ccclass
 export default class GameChoiceManager extends MinigameManager {
+	protected _gameId: string = GameList.GAME_CHOICE
+
 	public get getScore(): boolean {
 		return true
 	}
