@@ -8,7 +8,7 @@
 import ItemAnswer from "./itemAnswer"
 import ItemButton from "./itemButton"
 import ItemQuestion from "./itemQuestion"
-import MinigameManager from "./minigameManager"
+import MinigameManager from "../minigameManager"
 
 const { ccclass, property } = cc._decorator
 

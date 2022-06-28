@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import ItemButton from "./itemButton"
-import MinigameManager from "./minigameManager"
+import MinigameManager from "../minigameManager"
 
 const { ccclass } = cc._decorator
 
