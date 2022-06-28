@@ -16,6 +16,8 @@ export enum GameList {
 
 @ccclass
 export default class GameManager extends cc.Component {
+	static readonly baseUrlFile = "https://ctm-cms.myg.vn"
+
 	@property(cc.Prefab)
 	game1NLayoutPrefab: cc.Prefab = null
 	@property(cc.Prefab)

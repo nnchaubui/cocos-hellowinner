@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import ItemButton from "./itemButton"
-import MinigameManager from "../minigameManager"
+import GameManager from "../gameManager"
 
 const { ccclass } = cc._decorator
 
@@ -17,7 +17,7 @@ export default class ItemAnswer extends ItemButton {
 	onLoad() {
 		super.onLoad()
 		cc.assetManager.loadRemote<cc.Texture2D>(
-			MinigameManager.baseUrlFile + this.Image,
+			GameManager.baseUrlFile + this.Image,
 			(err, spr) => {
 				this.node
 					.getChildByName("mask")

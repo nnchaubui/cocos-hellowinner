@@ -8,7 +8,6 @@
 const { ccclass } = cc._decorator
 
 @ccclass
-	static readonly baseUrlFile = "https://ctm-cms.myg.vn"
 export default abstract class MinigameManager extends cc.Component {
 
 	protected abstract _gameId: string
