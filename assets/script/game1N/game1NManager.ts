@@ -104,19 +104,6 @@ export default class Game1NManager extends MinigameManager {
 		this.clearJustClick()
 	}
 
-	printDebug() {
-		console.log("just-click " + typeof this.just_click)
-		console.log("Connect to " + this.arrConnectTo)
-		console.log("isChecked")
-		this.arrAnswer.forEach((element) => {
-			console.log(element.node.getComponent(cc.Toggle).isChecked)
-		})
-		console.log("&")
-		this.arrQuestion.forEach((element) => {
-			console.log(element.node.getComponent(cc.Toggle).isChecked)
-		})
-		console.log("---------")
-	}
 
 	onLoad() {
 		super.onLoad()
