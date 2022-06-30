@@ -5,10 +5,14 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const { ccclass } = cc._decorator
+const { ccclass, property } = cc._decorator
 
 @ccclass
 export default abstract class MinigameManager extends cc.Component {
+	@property(cc.Prefab)
+	abstract answerPrefab: cc.Prefab
+	@property(cc.Prefab)
+	abstract questionPrefab: cc.Prefab
 	abstract arrAnswer: any[]
 	abstract arrQuestion: any[]
 

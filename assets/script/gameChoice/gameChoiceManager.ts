@@ -12,6 +12,8 @@ const { ccclass } = cc._decorator
 
 @ccclass
 export default class GameChoiceManager extends MinigameManager {
+	answerPrefab: cc.Prefab
+	questionPrefab: cc.Prefab
 	protected _gameId: string = GameList.GAME_CHOICE
 	arrAnswer: any[]
 	arrQuestion: any[]
