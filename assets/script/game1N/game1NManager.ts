@@ -144,7 +144,10 @@ export default class Game1NManager extends MinigameManager {
 		//Ve duong day
 		this.lines.clear()
 		for (var i = 0; i < this.arrAnswer.length; i++) {
-			if (this.arrConnectTo[i] != -1) {
+			if (this.arrConnectTo[i] != -1 && this.arrAnswer[i].node.active) {
+				if (!this.arrQuestion[this.arrConnectTo[i]].node.active) {
+					continue
+				} // Kiem tra dieu kien. Duong noi chi duoc ve neu ca hai cai cung dang ton tai.
 				// Ve duong noi tu answer[i].position den connectTo[answer[i]].position
 				var froms = this.lines.node.convertToNodeSpaceAR(
 					this.arrAnswer[i].node.convertToWorldSpaceAR(
