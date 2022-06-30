@@ -20,9 +20,9 @@ export default class Game1NManager extends MinigameManager {
 
 	protected _gameId: string = GameList.GAME_1N
 
-	@property(cc.Prefab)
+	// @property(cc.Prefab)
 	answerPrefab: cc.Prefab = null
-	@property(cc.Prefab)
+	// @property(cc.Prefab)
 	questionPrefab: cc.Prefab = null
 
 	arrAnswer: ItemAnswer[] = []
