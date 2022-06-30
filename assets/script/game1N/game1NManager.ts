@@ -9,7 +9,7 @@ import ItemAnswer from "./itemAnswer"
 import ItemButton from "./itemButton"
 import ItemQuestion from "./itemQuestion"
 import MinigameManager from "../minigameManager"
-import {GameList} from "../gameManager"
+import { GameList } from "../gameManager"
 
 const { ccclass, property } = cc._decorator
 
@@ -104,6 +104,30 @@ export default class Game1NManager extends MinigameManager {
 		this.clearJustClick()
 	}
 
+	exportData() {
+		const pageData = super.exportData()
+		for (let index = 0; index < this.arrAnswer.length; index++) {
+			if (!this.arrAnswer[index].node.active) {
+				pageData.answer.splice(index, 5)
+				this.arrConnectTo.splice(index, 5)
+				break
+			}
+		}
+		for (let index = 0; index < this.arrQuestion.length; index++) {
+			if (!this.arrQuestion[index].node.active) {
+				pageData.question.splice(index, 5)
+				break
+			}
+		}
+		for (let index = 0; index < this.arrConnectTo.length; index++) {
+			if (this.arrConnectTo[index] >= this.arrQuestion.length) {
+				this.arrConnectTo[index] = -1
+			}
+			const sol = this.arrConnectTo[index]
+			pageData.answer[index].Solution = sol
+		}
+		return pageData
+	}
 
 	onLoad() {
 		super.onLoad()
