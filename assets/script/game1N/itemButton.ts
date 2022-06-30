@@ -40,6 +40,10 @@ export default abstract class ItemButton extends cc.Component {
 	public get Text(): null {
 		return this.data.Text
 	}
+	protected set Text(text: string)
+	{
+		this.data.Text = text
+	}
 	public get Solution(): number {
 		return this.data.Solution
 	}
