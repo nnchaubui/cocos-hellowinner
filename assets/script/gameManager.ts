@@ -25,7 +25,7 @@ export default class GameManager extends cc.Component {
 
 	page: number
 	pageLabel: cc.Label
-	helpLabel: cc.Label
+	helpLabel: any
 
 	arrPagesManager: MinigameManager[] = []
 	arrPages: cc.Node[] = []
@@ -96,7 +96,7 @@ export default class GameManager extends cc.Component {
 						break
 				}
 				obj.getComponent(MinigameManager).metadata = arrgame
-				this.node.addChild(obj)
+				obj.active = true
 				this.arrPages.push(obj)
 				this.arrPagesManager.push(obj.getComponent(MinigameManager))
 			})
