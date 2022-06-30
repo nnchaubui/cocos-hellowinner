@@ -45,18 +45,22 @@ export default class GameManager extends cc.Component {
 	}
 
 	onPreviousClick() {
-		this.swapPage(
-			this.page,
-			(this.page + this.arrPagesManager.length - 1) %
-				this.arrPagesManager.length
-		)
+		if (this.arrPages.length > 0) {
+			this.swapPage(
+				this.page,
+				(this.page + this.arrPagesManager.length - 1) %
+					this.arrPagesManager.length
+			)
+		}
 	}
 
 	onNextClick() {
-		this.swapPage(this.page, (this.page + 1) % this.arrPagesManager.length)
+		if (this.arrPages.length > 0) {
+			this.swapPage(this.page, (this.page + 1) % this.arrPagesManager.length)
+		}
 	}
 
-	swapPage(from: number, to: number) {
+	protected swapPage(from: number, to: number) {
 		this.page = to
 
 		// Chuyen trang
