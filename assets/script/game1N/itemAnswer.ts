@@ -24,8 +24,7 @@ export default class ItemAnswer extends ItemButton {
 		return ansData
 	}
 
-	onLoad() {
-		super.onLoad()
+	protected loadData() {
 		cc.assetManager.loadRemote<cc.Texture2D>(
 			GameManager.baseUrlFile + this.Image,
 			(err, spr) => {

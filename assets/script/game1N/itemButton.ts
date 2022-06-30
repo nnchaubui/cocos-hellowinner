@@ -64,7 +64,10 @@ export default abstract class ItemButton extends cc.Component {
 
 	onLoad() {
 		this.toggle = this.node.getComponent(cc.Toggle)
+		this.loadData()
 	}
+
+	protected abstract loadData(): void
 
 	protected update(dt: number): void {
 		if (this.toggle.isChecked) {

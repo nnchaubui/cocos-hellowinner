@@ -23,9 +23,8 @@ export default class ItemQuestion extends ItemButton {
 		return quesData
 	}
 
-	onLoad()
+	protected loadData()
 	{
-		super.onLoad()
 		this.node.getChildByName("label").getComponent(cc.Label).string = this.Text
 	}
 	
