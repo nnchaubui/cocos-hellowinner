@@ -16,7 +16,7 @@ export default class ItemAnswer extends ItemButton {
 
 	public exportData(): any {
 		const ansData: any = {}
-		ansData.Id = this.Id
+		// ansData.Id = this.Id
 		ansData.Image = this.Image
 		ansData.Index = this.Index
 		ansData.Sound = this.Sound
