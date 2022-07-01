@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import Game1NManager from "./game1N/game1NManager"
+import ItemButton from "./game1N/itemButton"
 import GameManager from "./gameManager"
 import MinigameManager from "./minigameManager"
 
@@ -15,11 +16,11 @@ const { ccclass, property } = cc._decorator
 export default class Server extends cc.Component {
 	arrPagesmanager: MinigameManager[]
 
-	static uploadFile(type, target: any) {
+	static uploadFile(target: cc.Node, audioOnly: boolean) {
 		if (cc.sys.isBrowser) {
 			let fileInput = document.createElement("input")
 			fileInput.type = "file"
-			fileInput.accept = "image/png"
+			fileInput.accept = audioOnly ? "mp3" : "image/png/mp3"
 			// console.log("ipFile", fileInput)
 			fileInput.click()
 			fileInput.addEventListener(
@@ -31,7 +32,7 @@ export default class Server extends cc.Component {
 					reader.onload = function (progressEvent) {
 						img.src = progressEvent.target.result as string
 						img.onload = function () {
-							// Day chac la cai cho chinh kich co chu gi
+							// Cha hieu kieu gi
 							var ctx = canvas.getContext("2d")
 							ctx.drawImage(img, 0, 0)
 
@@ -67,11 +68,8 @@ export default class Server extends cc.Component {
 								})
 						}
 					}
-					// console.log("ipFile.files[0]", fileInput.files)
 					reader.readAsDataURL(fileInput.files[0])
 
-					// TODO upload
-					// Server.loadRes("https://ctm-cms.myg.vn/images/thumbnail/0xd237b25d45b144dbab92f81e5c5c44f7cheems.png", target)
 					// Upload cai file vua chon len
 					var myHeaders = new Headers()
 					myHeaders.append(
@@ -85,16 +83,24 @@ export default class Server extends cc.Component {
 
 					var requestOptions = {
 						method: "POST",
+						headers: myHeaders,
 						body: formdata,
 						redirect: "follow" as RequestRedirect,
 					}
 
-					fetch("http://localhost:5002/Upload", requestOptions)
+					fetch(
+						"https://dev-cms-teacher.consangtao.vn/Api/UploadFile",
+						requestOptions
+					)
 						.then((response) => response.text())
 						.then((result) => {
-							// console.log(result)
 							const url = JSON.parse(result).url
-							Server.loadRes(url, target) // itemAnswerMaker & itemQuestionMaker only
+							const ext = url.substring(url.length - 3)
+							if (ext == "mp3") {
+								target.getComponent(ItemButton).updateSound(url)
+							} else {
+								target.getComponent(ItemButton).updateImage(url)
+							}
 						})
 						.catch((error) => console.log("error", error))
 				},
@@ -103,14 +109,7 @@ export default class Server extends cc.Component {
 		}
 	}
 
-	static loadRes(url: string, target: any) {
-		cc.assetManager.loadRemote<cc.Texture2D>(url, (err, spr) => {
-			target.spriteFrame = new cc.SpriteFrame(spr)
-		})
-	}
-
 	onSendGameButton() {
-		// TODO send
 		const gameData: any[] = []
 		this.arrPagesmanager.forEach((page) => {
 			gameData.push(page.exportData())
@@ -118,19 +117,15 @@ export default class Server extends cc.Component {
 		console.log(gameData)
 		console.log(JSON.stringify(gameData))
 
-
 		var myHeaders = new Headers()
 		myHeaders.append(
 			"Cookie",
 			".AspNetCore.Session=CfDJ8NcGdSzUZ81Hlh0bgChgkkol4wqoAFzsQR6veLqIxavmDAa01PLC8W%2FMp%2FfTJ4pg2qhrkB6gnABzEdEBtm5Ozq9Y0RWwAoj%2FlxCGZejFcuXswKXxplt4A%2BPzaHtsKgv6wPOBJcioz7d8I0Q%2Fw35t1ZAWv%2Bb9CV76ADRclyL0tXP3"
 		)
 		var formdata = new FormData()
-		formdata.append(
-			"datajson",
-			JSON.stringify(gameData)
-		)
+		formdata.append("datajson", JSON.stringify(gameData))
 		formdata.append("LessonId", "d208e744-94df-4915-a2e2-1bc32cceedff")
-		formdata.append("GameId", "181c6063-5465-4196-8b39-b77ec1171324")
+		formdata.append("GameId", "8eabc86e-f24d-401a-8fe6-d23111adb253")
 		var requestOptions = {
 			method: "POST",
 			headers: myHeaders,

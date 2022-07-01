@@ -13,7 +13,7 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class ItemAnswerMaker extends ItemAnswer {
 	onUploadImageClick() {
-		Server.uploadFile(this.node)
+		Server.uploadFile(this.node, false)
 	}
 	onAudioToggle()
 	{
