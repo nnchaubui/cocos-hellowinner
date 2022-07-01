@@ -181,31 +181,16 @@ export default class GameMaker extends GameManager {
 	// LIFE-CYCLE CALLBACKS:
 
 	onLoad() {
-		// Khu load resources
-		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
-			this.game_data = (json as cc.JsonAsset).json
-			var arrgames: any[] = this.game_data.data.items
-
-			arrgames.forEach((arrgame) => {
-				var obj: cc.Node
-				switch (arrgame.gameId) {
-					case GameList.GAME_1N:
-						obj = cc.instantiate(this.game1NLayoutPrefab)
-						break
-					case GameList.GAME_CHOICE:
-						obj = cc.instantiate(this.gameChoicePrefab)
-						break
-					default:
-						obj = cc.instantiate(this.game1NLayoutPrefab)
-						break
-				}
-
-				obj.getComponent(MinigameManager).metadata = arrgame
-				this.node.addChild(obj)
-				this.arrPages.push(obj)
-				this.arrPagesManager.push(obj.getComponent(MinigameManager))
-			})
-			this.swapPage(null, 0)
+		window.addEventListener("message", (e) => {
+			var data = e.data
+			if (data.method == "setimage") {
+			}
+			if (data.method == "setsound") {
+			}
+			if (data.method == "loaddata") {
+				console.log("Nhận data từ cms")
+				this.loadData(data.params.data)
+			}
 		})
 	}
 
@@ -217,6 +202,26 @@ export default class GameMaker extends GameManager {
 		this.helpLabel = cc
 			.find("navi/help/popup/help_label")
 			.getComponent(cc.EditBox)
+
+		var myHeaders = new Headers()
+		myHeaders.append(
+			"Cookie",
+			".AspNetCore.Session=CfDJ8NcGdSzUZ81Hlh0bgChgkkqkNnWu5HZi6WUdUgt%2B2P2B4P%2BkZJxscMXuiqUZKH5k%2Fu4BOHyCJCR1HMQ6Zu2mIAeib54z7M6tj9Tf0M53XcugXok6QWHgGkmRXowprmY%2BoeTXj%2BV4YFVDNIs%2FZSbBaHZ1%2FosjVqzVoRhC6no7u3UX"
+		)
+
+		var requestOptions = {
+			method: "GET",
+			headers: myHeaders,
+			redirect: "follow" as RequestRedirect,
+		}
+
+		fetch("http://localhost:5002/Api/UrlBase", requestOptions)
+			.then((response) => response.text())
+			.then(
+				// (result) => (this.baseUrlfile = JSON.parse(result).fileUrl),
+				window.top.display()
+			)
+			.catch((error) => console.log("error", error))
 	}
 
 	// update (dt) {}
