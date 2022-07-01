@@ -61,7 +61,10 @@ export default class GameMaker extends GameManager {
 	setNumAnswer(_event: any, custom: any) {
 		const num: number = custom as number
 		if (num > this.arrPagesManager[this.page].arrAnswer.length) {
-			this.addEmptyAnswer(num - this.arrPagesManager[this.page].arrAnswer.length)
+			this.addEmptyAnswer(
+				this.arrPagesManager[this.page].arrAnswer.length,
+				num - this.arrPagesManager[this.page].arrAnswer.length
+			)
 		}
 		var index = 0
 
@@ -78,7 +81,10 @@ export default class GameMaker extends GameManager {
 	setNumQuestion(_event: any, custom: any) {
 		const num: number = custom as number
 		if (num > this.arrPagesManager[this.page].arrQuestion.length) {
-			this.addEmptyQuestion(num - this.arrPagesManager[this.page].arrQuestion.length)
+			this.addEmptyQuestion(
+				this.arrPagesManager[this.page].arrQuestion.length,
+				num - this.arrPagesManager[this.page].arrQuestion.length
+			)
 		}
 		var index = 0
 		this.arrPages[this.page]
@@ -90,9 +96,10 @@ export default class GameMaker extends GameManager {
 			})
 	}
 
-	private addEmptyAnswer(count: number) {
+	/** Them count cau tra loi tu vi tri start */
+	private addEmptyAnswer(start: number, count: number) {
 		for (var index = 0; index < count; index++) {
-			const ansData: any = new AnswerData(index)
+			const ansData: any = new AnswerData(start + index)
 			const ans = cc.instantiate(this.arrPagesManager[this.page].answerPrefab)
 			ans.getComponent(ItemButton).data = ansData
 			ans.getComponent(ItemButton).manager = this.arrPagesManager[
@@ -110,9 +117,10 @@ export default class GameMaker extends GameManager {
 		}
 	}
 
-	private addEmptyQuestion(count: number) {
+	/** Them count cau hoi tu vi tri start */
+	private addEmptyQuestion(start: number, count: number) {
 		for (var index = 0; index < count; index++) {
-			const quesData: any = new QuestionData(index)
+			const quesData: any = new QuestionData(start + index)
 			const ques = cc.instantiate(
 				this.arrPagesManager[this.page].questionPrefab
 			)
