@@ -114,31 +114,33 @@ export default class Server extends cc.Component {
 		this.arrPagesmanager.forEach((page) => {
 			gameData.push(page.exportData())
 		})
-		console.log(gameData)
-		console.log(JSON.stringify(gameData))
+		window.top.receiveData(JSON.stringify(gameData))	// Goi tu server chu khong them choi oi API nua
 
-		var myHeaders = new Headers()
-		myHeaders.append(
-			"Cookie",
-			".AspNetCore.Session=CfDJ8NcGdSzUZ81Hlh0bgChgkkol4wqoAFzsQR6veLqIxavmDAa01PLC8W%2FMp%2FfTJ4pg2qhrkB6gnABzEdEBtm5Ozq9Y0RWwAoj%2FlxCGZejFcuXswKXxplt4A%2BPzaHtsKgv6wPOBJcioz7d8I0Q%2Fw35t1ZAWv%2Bb9CV76ADRclyL0tXP3"
-		)
-		var formdata = new FormData()
-		formdata.append("datajson", JSON.stringify(gameData))
-		formdata.append("LessonId", "d208e744-94df-4915-a2e2-1bc32cceedff")
-		formdata.append("GameId", "8eabc86e-f24d-401a-8fe6-d23111adb253")
-		var requestOptions = {
-			method: "POST",
-			headers: myHeaders,
-			body: formdata,
-			redirect: "follow" as RequestRedirect,
-		}
-		fetch(
-			"http://localhost:5002/Api/AddItems?GameId&LessonId&datajson",
-			requestOptions
-		)
-			.then((response) => response.text())
-			.then((result) => console.log(result))
-			.catch((error) => console.log("error", error))
+		// console.log(gameData)
+		// console.log(JSON.stringify(gameData))
+
+		// var myHeaders = new Headers()
+		// myHeaders.append(
+		// 	"Cookie",
+		// 	".AspNetCore.Session=CfDJ8NcGdSzUZ81Hlh0bgChgkkol4wqoAFzsQR6veLqIxavmDAa01PLC8W%2FMp%2FfTJ4pg2qhrkB6gnABzEdEBtm5Ozq9Y0RWwAoj%2FlxCGZejFcuXswKXxplt4A%2BPzaHtsKgv6wPOBJcioz7d8I0Q%2Fw35t1ZAWv%2Bb9CV76ADRclyL0tXP3"
+		// )
+		// var formdata = new FormData()
+		// formdata.append("datajson", JSON.stringify(gameData))
+		// formdata.append("LessonId", "d208e744-94df-4915-a2e2-1bc32cceedff")
+		// formdata.append("GameId", "8eabc86e-f24d-401a-8fe6-d23111adb253") // TODO send
+		// var requestOptions = {
+		// 	method: "POST",
+		// 	headers: myHeaders,
+		// 	body: formdata,
+		// 	redirect: "follow" as RequestRedirect,
+		// }
+		// fetch(
+		// 	"http://localhost:5002/Api/AddItems?GameId&LessonId&datajson",
+		// 	requestOptions
+		// )
+		// 	.then((response) => response.text())
+		// 	.then((result) => console.log(result))
+		// 	.catch((error) => console.log("error", error))
 	}
 	// LIFE-CYCLE CALLBACKS:
 
