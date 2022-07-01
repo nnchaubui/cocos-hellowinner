@@ -25,7 +25,8 @@ export default class ItemQuestion extends ItemButton {
 	}
 
 	protected loadData() {
-		this.node.getChildByName("label").getComponent(cc.Label).string = this.Text
+		this.node.getChildByName("label").getComponent(cc.Label).string =
+			this.Text == null ? "" : this.Text
 		if (this.Sound != "") {
 			this.updateSound(GameManager.baseUrlFile + this.Sound)
 		}
