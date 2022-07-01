@@ -25,9 +25,9 @@ export default class ItemAnswer extends ItemButton {
 	}
 
 	protected loadData() {
-		this.updateImage(GameManager.baseUrlFile+ this.Image)
+		this.updateImage(GameManager.baseUrlFile + this.Image)
 		if (this.Sound != "") {
-			this.updateSound(GameManager.baseUrlFile+this.Sound)
+			this.updateSound(GameManager.baseUrlFile + this.Sound)
 		}
 	}
 

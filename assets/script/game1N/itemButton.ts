@@ -65,23 +65,10 @@ export default abstract class ItemButton extends cc.Component {
 	uncheckFrame: cc.SpriteFrame = null
 
 	public abstract exportData(): any
-	
+
 	protected abstract loadData(): void
 	abstract updateImage(url: string): void
 	abstract updateSound(url: string): void
-	
-	// public loadRes(url: string)
-	// {
-	// 	const ext = url.substring(url.length - 3)
-	// 	if(ext == "mp3")
-	// 	{
-	// 		this.updateSound(url)
-	// 	}
-	// 	else
-	// 	{
-	// 		this.updateImage(url)
-	// 	}
-	// }
 
 	public updateProperty(pName: string, pValue: any) {
 		switch (pName) {
@@ -99,18 +86,6 @@ export default abstract class ItemButton extends cc.Component {
 		}
 	}
 
-	// public updateAsset(aValue: any)
-	// {
-	// 	if(aValue instanceof cc.Texture2D)
-	// 	{
-	// 		this.updateImage(aValue)
-	// 	}
-	// 	else if(aValue instanceof cc.AudioClip)
-	// 	{
-	// 		this.updateSound(aValue)
-	// 	}
-	// }
-
 	clickItem() {}
 
 	onLoad() {
@@ -127,6 +102,4 @@ export default abstract class ItemButton extends cc.Component {
 				this.uncheckFrame
 		}
 	}
-
-
 }
