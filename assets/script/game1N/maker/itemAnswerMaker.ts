@@ -13,12 +13,10 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class ItemAnswerMaker extends ItemAnswer {
 	onUploadImageClick() {
-		Server.uploadFile(
-			null,
-			this.node
-				.getChildByName("mask")
-				.getChildByName("sprite")
-				.getComponent(cc.Sprite)
-		)
+		Server.uploadFile(this.node)
+	}
+	onAudioToggle()
+	{
+		// TODO upload sound
 	}
 }

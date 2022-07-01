@@ -21,4 +21,9 @@ export default class ItemQuestionMaker extends ItemQuestion {
 			.getChildByName("label")
 			.getComponent(cc.EditBox).string
 	}
+
+	onSoundToggle()
+	{
+		// TODO upload sound vao day
+	}
 }

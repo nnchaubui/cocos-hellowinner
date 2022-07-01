@@ -25,15 +25,27 @@ export default class ItemAnswer extends ItemButton {
 	}
 
 	protected loadData() {
-		cc.assetManager.loadRemote<cc.Texture2D>(
-			GameManager.baseUrlFile + this.Image,
-			(err, spr) => {
-				this.node
-					.getChildByName("mask")
-					.getChildByName("sprite")
-					.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(spr)
-			}
-		)
+		this.updateImage(GameManager.baseUrlFile+ this.Image)
+		if (this.Sound != "") {
+			this.updateSound(GameManager.baseUrlFile+this.Sound)
+		}
+	}
+
+	updateImage(url: string): void {
+		this.updateProperty("Image", url.replace(GameManager.baseUrlFile, ""))
+		cc.assetManager.loadRemote<cc.Texture2D>(url, (err, spr) => {
+			this.node
+				.getChildByName("mask")
+				.getChildByName("sprite")
+				.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(spr)
+		})
+	}
+
+	updateSound(url: string): void {
+		this.updateProperty("Sound", url.replace(GameManager.baseUrlFile, ""))
+		cc.assetManager.loadRemote<cc.AudioClip>(url, (err, aud) => {
+			this.node.getComponent(cc.AudioSource).clip = aud
+		})
 	}
 
 	clickItem() {

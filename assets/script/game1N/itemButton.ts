@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import GameManager from "../gameManager"
 import Game1NManager from "./game1NManager"
 
 const { ccclass, property } = cc._decorator
@@ -40,8 +41,7 @@ export default abstract class ItemButton extends cc.Component {
 	public get Text(): null {
 		return this.data.Text
 	}
-	protected set Text(text: string)
-	{
+	protected set Text(text: string) {
 		this.data.Text = text
 	}
 	public get Solution(): number {
@@ -65,13 +65,58 @@ export default abstract class ItemButton extends cc.Component {
 	uncheckFrame: cc.SpriteFrame = null
 
 	public abstract exportData(): any
+	
+	protected abstract loadData(): void
+	abstract updateImage(url: string): void
+	abstract updateSound(url: string): void
+	
+	// public loadRes(url: string)
+	// {
+	// 	const ext = url.substring(url.length - 3)
+	// 	if(ext == "mp3")
+	// 	{
+	// 		this.updateSound(url)
+	// 	}
+	// 	else
+	// 	{
+	// 		this.updateImage(url)
+	// 	}
+	// }
+
+	public updateProperty(pName: string, pValue: any) {
+		switch (pName) {
+			case "Id":
+				this.data.Id = pValue
+				break
+			case "Image":
+				this.data.Image = pValue
+				break
+			case "Sound":
+				this.data.Sound = pValue
+				break
+			default:
+				break
+		}
+	}
+
+	// public updateAsset(aValue: any)
+	// {
+	// 	if(aValue instanceof cc.Texture2D)
+	// 	{
+	// 		this.updateImage(aValue)
+	// 	}
+	// 	else if(aValue instanceof cc.AudioClip)
+	// 	{
+	// 		this.updateSound(aValue)
+	// 	}
+	// }
+
+	clickItem() {}
 
 	onLoad() {
 		this.toggle = this.node.getComponent(cc.Toggle)
 		this.loadData()
 	}
-
-	protected abstract loadData(): void
 
 	protected update(dt: number): void {
 		if (this.toggle.isChecked) {
@@ -82,5 +127,5 @@ export default abstract class ItemButton extends cc.Component {
 		}
 	}
 
-	clickItem() {}
+
 }
