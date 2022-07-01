@@ -61,6 +61,11 @@ export default class GameManager extends cc.Component {
 	}
 
 	protected swapPage(from: number, to: number) {
+		if (to == null) {
+			this.page = -1
+			return
+		}
+
 		this.page = to
 
 		// Chuyen trang
@@ -81,27 +86,30 @@ export default class GameManager extends cc.Component {
 		cc.resources.load("sample_data", cc.JsonAsset, (err, json) => {
 			this.game_data = (json as cc.JsonAsset).json
 			var arrgames: any[] = this.game_data.data.items
-
-			arrgames.forEach((arrgame) => {
-				var obj: cc.Node
-				switch (arrgame.gameId) {
-					case GameList.GAME_1N:
-						obj = cc.instantiate(this.game1NLayoutPrefab)
-						break
-					case GameList.GAME_CHOICE:
-						obj = cc.instantiate(this.gameChoicePrefab)
-						break
-					default:
-						obj = cc.instantiate(this.game1NLayoutPrefab)
-						break
-				}
-				obj.getComponent(MinigameManager).metadata = arrgame
-				obj.active = true
-				this.arrPages.push(obj)
-				this.arrPagesManager.push(obj.getComponent(MinigameManager))
-			})
-			this.swapPage(null, 0)
+			this.loadData(arrgames)
 		})
+	}
+
+	protected loadData(arrgames: any) {
+		arrgames.forEach((arrgame) => {
+			var obj: cc.Node
+			switch (arrgame.gameId) {
+				case GameList.GAME_1N:
+					obj = cc.instantiate(this.game1NLayoutPrefab)
+					break
+				case GameList.GAME_CHOICE:
+					obj = cc.instantiate(this.gameChoicePrefab)
+					break
+				default:
+					obj = cc.instantiate(this.game1NLayoutPrefab)
+					break
+			}
+			obj.getComponent(MinigameManager).metadata = arrgame
+			this.node.addChild(obj)
+			this.arrPages.push(obj)
+			this.arrPagesManager.push(obj.getComponent(MinigameManager))
+		})
+		this.swapPage(null, arrgames.length == 0 ? null : 0)
 	}
 
 	start() {
