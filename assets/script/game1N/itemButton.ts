@@ -45,7 +45,7 @@ export default abstract class ItemButton extends cc.Component {
 		this.data.Text = text
 	}
 	public get Solution(): number {
-		return this.data.Solution
+		return this.data.Json.Solution
 	}
 
 	public get Index(): number {
@@ -114,6 +114,7 @@ export default abstract class ItemButton extends cc.Component {
 	clickItem() {}
 
 	onLoad() {
+		this.data.Json = this.data.Json == "" ? {} : JSON.parse(this.data.Json)
 		this.toggle = this.node.getComponent(cc.Toggle)
 		this.loadData()
 	}

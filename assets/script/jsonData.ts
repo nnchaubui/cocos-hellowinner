@@ -3,14 +3,14 @@ export class AnswerData {
 	Image: String
 	Index: number
 	Sound: String
-	Solution: number
+	Json: string
 
 	constructor(Index: number) {
 		this.Id = ""
 		this.Image = ""
 		this.Index = Index
 		this.Sound = ""
-		this.Solution = -1
+		this.Json = JSON.stringify({"Solution":-1})
 	}
 }
 
@@ -20,6 +20,7 @@ export class QuestionData {
 	Image: string
 	Index: number
 	Sound: string
+	Json: string
 
 	constructor(Index: number) {
 		this.Id = ""
@@ -27,5 +28,6 @@ export class QuestionData {
 		this.Image = ""
 		this.Index = Index
 		this.Sound = ""
+		this.Json = JSON.stringify({})
 	}
 }

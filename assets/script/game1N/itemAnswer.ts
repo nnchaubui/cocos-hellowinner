@@ -20,7 +20,7 @@ export default class ItemAnswer extends ItemButton {
 		ansData.Image = this.Image
 		ansData.Index = this.Index
 		ansData.Sound = this.Sound
-		ansData.Solution = this.Solution
+		ansData.Json = JSON.stringify({ "Solution": this.Solution })
 		return ansData
 	}
 
