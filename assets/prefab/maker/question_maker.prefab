@@ -36,11 +36,14 @@
         "__id__": 27
       },
       {
-        "__id__": 29
+        "__id__": 30
+      },
+      {
+        "__id__": 31
       }
     ],
     "_prefab": {
-      "__id__": 30
+      "__id__": 32
     },
     "_opacity": 255,
     "_color": {
@@ -1047,6 +1050,9 @@
     "checkEvents": [
       {
         "__id__": 28
+      },
+      {
+        "__id__": 29
       }
     ],
     "_id": ""
@@ -1059,6 +1065,16 @@
     "component": "",
     "_componentId": "c86688g11RIh6tmF9vV0+aq",
     "handler": "clickItem",
+    "customEventData": ""
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "cc.AudioSource",
+    "handler": "play",
     "customEventData": ""
   },
   {
@@ -1075,6 +1091,23 @@
     "uncheckFrame": {
       "__uuid__": "62eaf608-3c8f-4bd6-b7b8-13c9ad09ee0d"
     },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_clip": null,
+    "_volume": 1,
+    "_mute": false,
+    "_loop": false,
+    "_firstlyEnabled": true,
+    "playOnLoad": false,
+    "preload": false,
     "_id": ""
   },
   {

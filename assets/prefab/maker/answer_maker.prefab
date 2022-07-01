@@ -36,14 +36,17 @@
         "__id__": 23
       },
       {
-        "__id__": 25
+        "__id__": 26
       },
       {
-        "__id__": 26
+        "__id__": 27
+      },
+      {
+        "__id__": 28
       }
     ],
     "_prefab": {
-      "__id__": 27
+      "__id__": 29
     },
     "_opacity": 255,
     "_color": {
@@ -925,6 +928,9 @@
     "checkEvents": [
       {
         "__id__": 24
+      },
+      {
+        "__id__": 25
       }
     ],
     "_id": ""
@@ -935,8 +941,18 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "d7dddK+uK1Lr6x7zN74svzG",
+    "_componentId": "c46b97WBmBPj5OAMm6yqunx",
     "handler": "clickItem",
+    "customEventData": ""
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "cc.AudioSource",
+    "handler": "play",
     "customEventData": ""
   },
   {
@@ -980,6 +996,23 @@
     "uncheckFrame": {
       "__uuid__": "ca8d0bd4-4888-4f67-bc45-4ebbf37aff6b"
     },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_clip": null,
+    "_volume": 1,
+    "_mute": false,
+    "_loop": false,
+    "_firstlyEnabled": true,
+    "playOnLoad": false,
+    "preload": false,
     "_id": ""
   },
   {
