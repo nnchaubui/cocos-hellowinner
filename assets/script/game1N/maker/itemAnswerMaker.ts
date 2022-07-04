@@ -46,7 +46,7 @@ export default class ItemAnswerMaker extends ItemAnswer {
 
 	start()
 	{
-		this.soundSource.mute = true
+		this.soundSource.mute = this.soundSource.clip == null
 	}
 
 	update(dt) {

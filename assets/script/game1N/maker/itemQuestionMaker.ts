@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import GameManager from "../../gameManager"
 import Server from "../../server"
 import ItemQuestion from "../itemQuestion"
 
@@ -22,7 +23,12 @@ export default class ItemQuestionMaker extends ItemQuestion {
 
 	protected loadData() {
 		this.node.getChildByName("label").getComponent(cc.EditBox).string =
-			this.Text
+			this.Text == null ? "" : this.Text
+		if (this.Sound != "") {
+			this.updateSound(GameManager.baseUrlFile + this.Sound)
+		} else {
+			this.updateSound(this.Sound)
+		}
 	}
 
 	private hasSound(): boolean {
@@ -52,7 +58,7 @@ export default class ItemQuestionMaker extends ItemQuestion {
 	}
 
 	start() {
-		this.soundSource.mute = true
+		this.soundSource.mute = this.soundSource.clip == null
 	}
 
 	update(dt) {
