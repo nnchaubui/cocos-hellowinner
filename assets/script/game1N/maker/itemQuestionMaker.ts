@@ -26,8 +26,6 @@ export default class ItemQuestionMaker extends ItemQuestion {
 			this.Text == null ? "" : this.Text
 		if (this.Sound != "") {
 			this.updateSound(GameManager.baseUrlFile + this.Sound)
-		} else {
-			this.updateSound(this.Sound)
 		}
 	}
 
