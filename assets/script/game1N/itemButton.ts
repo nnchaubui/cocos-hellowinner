@@ -6,19 +6,16 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import GameManager from "../gameManager"
+import { ItemData } from "../jsonData"
 import Game1NManager from "./game1NManager"
 
 const { ccclass, property } = cc._decorator
 
 @ccclass
 export default abstract class ItemButton extends cc.Component {
-	private _data: any = null
-	public get data(): any {
-		return this._data
-	}
-	public set data(value: any) {
-		this._data = value
-	}
+	data: ItemData = null
+	protected json: any = null
+
 
 	public get Id(): string {
 		return this.data.Id
@@ -26,28 +23,21 @@ export default abstract class ItemButton extends cc.Component {
 	public get Image(): string {
 		return this.data.Image
 	}
-	public get IsCorrect(): boolean {
-		return this.data.IsCorrect
-	}
-	public get Json(): null {
+	public get Json(): string {
 		return this.data.Json
 	}
 	public get Sound(): string {
 		return this.data.Sound
 	}
-	public get Spine(): null {
+	public get Spine(): any {
 		return this.data.Spine
 	}
-	public get Text(): null {
+	public get Text(): string {
 		return this.data.Text
 	}
 	protected set Text(text: string) {
 		this.data.Text = text
 	}
-	public get Solution(): number {
-		return this.data.Json.Solution
-	}
-
 	public get Index(): number {
 		return this.data.Index
 	}
@@ -89,7 +79,7 @@ export default abstract class ItemButton extends cc.Component {
 	clickItem() {}
 
 	onLoad() {
-		this.data.Json = this.data.Json == "" ? {} : JSON.parse(this.data.Json)
+		this.json = !this.data.Json ? {} : JSON.parse(this.data.Json)
 		this.toggle = this.node.getComponent(cc.Toggle)
 		this.loadData()
 	}

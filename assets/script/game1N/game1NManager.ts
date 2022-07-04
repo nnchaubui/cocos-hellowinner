@@ -105,17 +105,16 @@ export default class Game1NManager extends MinigameManager {
 	}
 
 	exportData() {
-		const pageData = super.exportData()
 		for (let index = 0; index < this.arrAnswer.length; index++) {
 			if (!this.arrAnswer[index].node.active) {
-				pageData.answer.splice(index, 5)
+				this.arrAnswer.splice(index, 5)
 				this.arrConnectTo.splice(index, 5)
 				break
 			}
 		}
 		for (let index = 0; index < this.arrQuestion.length; index++) {
 			if (!this.arrQuestion[index].node.active) {
-				pageData.question.splice(index, 5)
+				this.arrQuestion.splice(index, 5)
 				break
 			}
 		}
@@ -124,8 +123,9 @@ export default class Game1NManager extends MinigameManager {
 				this.arrConnectTo[index] = -1
 			}
 			const sol = this.arrConnectTo[index]
-			pageData.answer[index].Solution = sol
+			this.arrAnswer[index].Solution = sol
 		}
+		const pageData = super.exportData()
 		return pageData
 	}
 

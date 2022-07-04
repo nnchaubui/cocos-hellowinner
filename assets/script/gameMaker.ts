@@ -9,7 +9,7 @@ import Game1NManager from "./game1N/game1NManager"
 import ItemAnswer from "./game1N/itemAnswer"
 import ItemButton from "./game1N/itemButton"
 import GameManager, { GameList } from "./gameManager"
-import { AnswerData, QuestionData } from "./jsonData"
+import { AnswerData, GameData, QuestionData } from "./jsonData"
 import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
@@ -99,7 +99,7 @@ export default class GameMaker extends GameManager {
 	/** Them count cau tra loi tu vi tri start */
 	private addEmptyAnswer(start: number, count: number) {
 		for (var index = 0; index < count; index++) {
-			const ansData: any = new AnswerData(start + index)
+			const ansData: AnswerData = new AnswerData(start + index)
 			const ans = cc.instantiate(this.arrPagesManager[this.page].answerPrefab)
 			ans.getComponent(ItemButton).data = ansData
 			ans.getComponent(ItemButton).manager = this.arrPagesManager[
@@ -161,11 +161,7 @@ export default class GameMaker extends GameManager {
 
 	/** Tao du lieu rong tuech cho trang moi */
 	private get emptyData() {
-		const pageData: any = {}
-		pageData.IdItem = "00000000-0000-0000-0000-000000000000"
-		pageData.Title = ""
-		pageData.question = []
-		pageData.answer = []
+		const pageData: any = new GameData()
 		for (let index = 0; index < 3; index++) {
 			pageData.question.push(new QuestionData(index))
 		}
