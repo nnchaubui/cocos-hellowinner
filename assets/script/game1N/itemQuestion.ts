@@ -35,8 +35,16 @@ export default class ItemQuestion extends ItemButton {
 	updateImage(url: string): void {}
 
 	updateSound(url: string): void {
+		if(url == null)
+		{
+			this.updateProperty("Sound", "")
+			this.node.getComponent(cc.AudioSource).mute = true
+			return
+		}
+
 		this.updateProperty("Sound", url.replace(GameManager.baseUrlFile, ""))
 		cc.assetManager.loadRemote<cc.AudioClip>(url, (err, aud) => {
+			this.node.getComponent(cc.AudioSource).mute = false
 			this.node.getComponent(cc.AudioSource).clip = aud
 		})
 	}
