@@ -19,7 +19,7 @@ export default class Server extends cc.Component {
 		if (cc.sys.isBrowser) {
 			let fileInput = document.createElement("input")
 			fileInput.type = "file"
-			fileInput.accept = audioOnly ? "mp3" : "image/png/mp3"
+			fileInput.accept = audioOnly ? "audio/mp3" : ".png, .mp3"
 			// console.log("ipFile", fileInput)
 			fileInput.click()
 			fileInput.addEventListener(

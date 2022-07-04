@@ -21,7 +21,7 @@ export default class GameMaker extends GameManager {
 		var obj = cc.instantiate(this.game1NLayoutPrefab)
 		obj.getComponent(MinigameManager).metadata = this.emptyData
 		obj.active = true
-		if (index == -1) {
+		if (this.arrPages.length == 0) {
 			this.arrPages.push(obj)
 			this.arrPagesManager.push(obj.getComponent(MinigameManager))
 			this.swapPage(null, 0)
