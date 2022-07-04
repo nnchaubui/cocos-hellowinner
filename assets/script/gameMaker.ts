@@ -25,6 +25,7 @@ export default class GameMaker extends GameManager {
 			this.arrPages.push(obj)
 			this.arrPagesManager.push(obj.getComponent(MinigameManager))
 			this.swapPage(null, 0)
+			this.hideHeader(false)
 		} // Trang moi tinh tinh tinh
 		else {
 			this.arrPages.splice(index + 1, 0, obj)
@@ -44,6 +45,7 @@ export default class GameMaker extends GameManager {
 			this.arrPagesManager.shift()
 			this.node.removeAllChildren()
 			this.page = -1
+			this.hideHeader(true)
 		} // Chi con 1 trang
 		else if (this.page == this.arrPages.length - 1) {
 			this.arrPages.pop()
@@ -172,6 +174,18 @@ export default class GameMaker extends GameManager {
 		const metaData: any = {}
 		metaData.jsonData = JSON.stringify(pageData)
 		return metaData
+	}
+
+	private hideHeader(really: boolean = true) {
+		cc.find("navi/help").active = !really
+		cc.find("navi/navi_top_right").active = !really
+	}
+
+	protected loadData(arrgames: any): void {
+		if (arrgames.length == 0) {
+			this.hideHeader(true)
+		}
+		super.loadData(arrgames)
 	}
 
 	// LIFE-CYCLE CALLBACKS:

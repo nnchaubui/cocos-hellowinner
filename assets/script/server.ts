@@ -109,6 +109,11 @@ export default class Server extends cc.Component {
 	}
 
 	onSendGameButton() {
+		if (this.arrPagesmanager.length == 0) {
+			console.log("Toi thieu 1 trang b")
+			return
+		}
+
 		const gameData: any[] = []
 		this.arrPagesmanager.forEach((page) => {
 			gameData.push(page.exportData())
