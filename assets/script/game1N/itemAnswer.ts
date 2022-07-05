@@ -15,10 +15,10 @@ const { ccclass } = cc._decorator
 export default class ItemAnswer extends ItemButton {
 	type = "answer"
 	data: AnswerData
-	public get Solution(): number {
+	public get Solution(): number[] {
 		return this.json.Solution
 	}
-	public set Solution(value: number) {
+	public set Solution(value: number[]) {
 		this.json.Solution = value
 	}
 

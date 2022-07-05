@@ -27,7 +27,7 @@ export default class Game1NManager extends MinigameManager {
 
 	arrAnswer: ItemAnswer[] = []
 	arrQuestion: ItemQuestion[] = []
-	arrConnectTo: number[] = []
+	arrConnectTo: number[][] = []
 
 	just_click: ItemButton = null
 	lines: cc.Graphics = null
@@ -37,7 +37,17 @@ export default class Game1NManager extends MinigameManager {
 
 		var score: number = 0
 		for (var i = 0; i < this.arrAnswer.length; i++) {
-			score += this.arrConnectTo[i] == this.arrAnswer[i].Solution ? 1 : 0
+			if (this.arrConnectTo[i].length != this.arrAnswer[i].Solution.length) {
+				continue
+			}
+
+			this.arrConnectTo[i] = this.arrConnectTo[i].sort((a, b) => a - b)
+			for (var j = 0; j < this.arrConnectTo[i].length; j++) {
+				if (this.arrConnectTo[i][j] != this.arrAnswer[i].Solution[j]) {
+					score--
+				}
+			}
+			score++
 		}
 
 		return score == this.getTotalScore
@@ -85,6 +95,7 @@ export default class Game1NManager extends MinigameManager {
 		else this.connect(this.just_click, item)
 	}
 
+	/** Noi tu b_from den b_to */
 	connect(b_from: ItemButton, b_to: ItemButton) {
 		// Hoan doi vi tri sao cho b_from luon la tang tren con b_to luon la tang duoi
 		if (b_from instanceof ItemQuestion) {
@@ -94,12 +105,13 @@ export default class Game1NManager extends MinigameManager {
 		}
 
 		// Tao ket noi giua tang tren va tang duoi
-		if (this.arrConnectTo[b_from.Index] == b_to.Index) {
+		if (this.arrConnectTo[b_from.Index].includes(b_to.Index)) {
 			// Cung diem den? Xoa.
-			this.arrConnectTo[b_from.Index] = -1
+			const i = this.arrConnectTo[b_from.Index].indexOf(b_to.Index)
+			this.arrConnectTo[b_from.Index].splice(i, 1)
 		} else {
 			// Khac diem den? ok diem den moi.
-			this.arrConnectTo[b_from.Index] = b_to.Index
+			this.arrConnectTo[b_from.Index].push(b_to.Index)
 		}
 		this.clearJustClick()
 	}
@@ -119,9 +131,11 @@ export default class Game1NManager extends MinigameManager {
 			}
 		}
 		for (let index = 0; index < this.arrConnectTo.length; index++) {
-			if (this.arrConnectTo[index] >= this.arrQuestion.length) {
-				this.arrConnectTo[index] = -1
-			}
+			this.arrConnectTo[index] = this.arrConnectTo[index].sort((a, b) => a - b)
+			this.arrConnectTo[index] = this.arrConnectTo[index].filter((v, i, a) => {
+				return v < this.arrQuestion.length
+			})
+
 			const sol = this.arrConnectTo[index]
 			this.arrAnswer[index].Solution = sol
 		}
@@ -161,33 +175,34 @@ export default class Game1NManager extends MinigameManager {
 	}
 
 	start() {
-		this.arrConnectTo = new Array(this.arrAnswer.length).fill(-1)
+		for (var index = 0; index < this.arrAnswer.length; index++) {
+			this.arrConnectTo.push([])
+		}
 	}
 
 	update(_dt: number) {
 		//Ve duong day
 		this.lines.clear()
 		for (var i = 0; i < this.arrAnswer.length; i++) {
-			if (this.arrConnectTo[i] != -1 && this.arrAnswer[i].node.active) {
-				if (!this.arrQuestion[this.arrConnectTo[i]].node.active) {
-					continue
-				} // Kiem tra dieu kien. Duong noi chi duoc ve neu ca hai cai cung dang ton tai.
-				// Ve duong noi tu answer[i].position den connectTo[answer[i]].position
-				var froms = this.lines.node.convertToNodeSpaceAR(
-					this.arrAnswer[i].node.convertToWorldSpaceAR(
-						cc.v2(0, -this.arrAnswer[i].node.height / 3)
-					)
-				)
-				var tos = this.lines.node.convertToNodeSpaceAR(
-					this.arrQuestion[this.arrConnectTo[i]].node.convertToWorldSpaceAR(
-						cc.v2(
-							0,
-							(this.arrQuestion[this.arrConnectTo[i]].node.height * 5) / 6
+			if (this.arrConnectTo[i].length != 0 && this.arrAnswer[i].node.active) {
+				this.arrConnectTo[i].forEach((targetIndex) => {
+					if (!this.arrQuestion[targetIndex].node.active) {
+						return
+					} // Kiem tra dieu kien. Duong noi chi duoc ve neu ca hai cai cung dang ton tai.
+					// Ve duong noi tu answer[i].position den connectTo[answer[i]].position
+					var froms = this.lines.node.convertToNodeSpaceAR(
+						this.arrAnswer[i].node.convertToWorldSpaceAR(
+							cc.v2(0, -this.arrAnswer[i].node.height / 3)
 						)
 					)
-				)
-				this.lines.moveTo(froms.x, froms.y)
-				this.lines.lineTo(tos.x, tos.y)
+					var tos = this.lines.node.convertToNodeSpaceAR(
+						this.arrQuestion[targetIndex].node.convertToWorldSpaceAR(
+							cc.v2(0, (this.arrQuestion[targetIndex].node.height * 5) / 6)
+						)
+					)
+					this.lines.moveTo(froms.x, froms.y)
+					this.lines.lineTo(tos.x, tos.y)
+				})
 			}
 		}
 		this.lines.stroke()
