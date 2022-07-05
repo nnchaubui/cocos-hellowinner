@@ -8,7 +8,7 @@
 import Game1NManager from "./game1N/game1NManager"
 import ItemAnswer from "./game1N/itemAnswer"
 import ItemButton from "./game1N/itemButton"
-import GameManager, { GameList } from "./gameManager"
+import GameManager from "./gameManager"
 import { AnswerData, GameData, QuestionData } from "./jsonData"
 import MinigameManager from "./minigameManager"
 
@@ -16,6 +16,12 @@ const { ccclass, property } = cc._decorator
 
 @ccclass
 export default class GameMaker extends GameManager {
+	static readonly MIN_ANSWER = 1
+	static readonly MAX_ANSWER = 5
+	static readonly MIN_QUESTION = 1
+	static readonly MAX_QUESTION = 3
+	static readonly MAX_PAGE = 20
+
 	/** Them trang vao vi tri index va dich may trang sau do them 1 nac */
 	private addPageToIndex(index: number) {
 		var obj = cc.instantiate(this.game1NLayoutPrefab)
@@ -142,8 +148,8 @@ export default class GameMaker extends GameManager {
 	}
 
 	onPlusButton() {
-		if (this.arrPages.length >= 20) {
-			console.log("Toi da 20 trang thoi!")
+		if (this.arrPages.length >= GameMaker.MAX_PAGE) {
+			console.log("Toi da " + GameMaker.MAX_PAGE + "trang thoi!")
 		} else {
 			this.addPageToIndex(this.page)
 		}
@@ -164,10 +170,10 @@ export default class GameMaker extends GameManager {
 	/** Tao du lieu rong tuech cho trang moi */
 	private get emptyData() {
 		const pageData: any = new GameData()
-		for (let index = 0; index < 3; index++) {
+		for (let index = 0; index < GameMaker.MAX_QUESTION; index++) {
 			pageData.question.push(new QuestionData(index))
 		}
-		for (let index = 0; index < 5; index++) {
+		for (let index = 0; index < GameMaker.MAX_ANSWER; index++) {
 			pageData.answer.push(new AnswerData(index))
 		}
 
