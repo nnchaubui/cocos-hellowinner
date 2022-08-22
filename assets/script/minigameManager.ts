@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { GameData } from "./jsonData"
+
 const { ccclass, property } = cc._decorator
 
 @ccclass
@@ -17,20 +19,13 @@ export default abstract class MinigameManager extends cc.Component {
 	abstract arrQuestion: any[]
 
 	protected abstract _gameId: string
-	private _metadata: any = null
+	private _data: GameData = null
+	metadata: any = null
 
-	public get metadata(): any {
-		return this._metadata
-	}
-	public set metadata(value: any) {
-		this._metadata = value
-	}
-
-	private _data: any = null
 	public get data(): any {
 		return this._data
 	}
-	public set data(value: any) {
+	private set data(value: any) {
 		this._data = value
 	}
 
@@ -70,9 +65,7 @@ export default abstract class MinigameManager extends cc.Component {
 		return this.metadata.id
 	}
 
-	public get getScore(): boolean {
-		return false
-	}
+	public abstract get getScore(): boolean
 
 	public clean /* Don dep tan du */() {}
 

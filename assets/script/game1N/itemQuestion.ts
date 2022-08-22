@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import GameManager from "../gameManager"
+import { QuestionData } from "../jsonData"
 import ItemButton from "./itemButton"
 
 const { ccclass } = cc._decorator
@@ -13,14 +14,11 @@ const { ccclass } = cc._decorator
 @ccclass
 export default class ItemQuestion extends ItemButton {
 	type = "question"
+	data: QuestionData
 
 	public exportData(): any {
-		const quesData: any = {}
-		// quesData.Id = this.Id
-		quesData.Text = this.Text
-		quesData.Image = this.Image
-		quesData.Index = this.Index
-		quesData.Sound = this.Sound
+		const quesData = this.data
+		quesData.Json = JSON.stringify(this.json)
 		return quesData
 	}
 
@@ -35,7 +33,7 @@ export default class ItemQuestion extends ItemButton {
 	updateImage(url: string): void {}
 
 	updateSound(url: string): void {
-		if(url == null)
+		if(url == null || url == "")
 		{
 			this.updateProperty("Sound", "")
 			this.node.getComponent(cc.AudioSource).mute = true

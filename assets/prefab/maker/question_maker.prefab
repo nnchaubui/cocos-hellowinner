@@ -30,20 +30,20 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 27
-      },
-      {
         "__id__": 28
       },
       {
-        "__id__": 31
+        "__id__": 29
       },
       {
         "__id__": 32
+      },
+      {
+        "__id__": 33
       }
     ],
     "_prefab": {
-      "__id__": 33
+      "__id__": 34
     },
     "_opacity": 255,
     "_color": {
@@ -445,11 +445,11 @@
         "__id__": 23
       },
       {
-        "__id__": 25
+        "__id__": 26
       }
     ],
     "_prefab": {
-      "__id__": 26
+      "__id__": 27
     },
     "_opacity": 255,
     "_color": {
@@ -895,10 +895,14 @@
     "_tabIndex": 0,
     "editingDidBegan": [],
     "textChanged": [],
-    "editingDidEnded": [],
-    "editingReturn": [
+    "editingDidEnded": [
       {
         "__id__": 24
+      }
+    ],
+    "editingReturn": [
+      {
+        "__id__": 25
       }
     ],
     "_N$textLabel": {
@@ -912,6 +916,16 @@
     "_N$inputMode": 6,
     "_N$stayOnTop": false,
     "_id": ""
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "c86688g11RIh6tmF9vV0+aq",
+    "handler": "onTextChanged",
+    "customEventData": ""
   },
   {
     "__type__": "cc.ClickEvent",
@@ -1061,10 +1075,10 @@
     "checkMark": null,
     "checkEvents": [
       {
-        "__id__": 29
+        "__id__": 30
       },
       {
-        "__id__": 30
+        "__id__": 31
       }
     ],
     "_id": ""
