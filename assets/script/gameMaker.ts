@@ -8,23 +8,30 @@
 import Game1NManager from "./game1N/game1NManager"
 import ItemAnswer from "./game1N/itemAnswer"
 import ItemButton from "./game1N/itemButton"
-import GameManager, { GameList } from "./gameManager"
-import { AnswerData, QuestionData } from "./jsonData"
+import GameManager from "./gameManager"
+import { AnswerData, GameData, QuestionData } from "./jsonData"
 import MinigameManager from "./minigameManager"
 
 const { ccclass, property } = cc._decorator
 
 @ccclass
 export default class GameMaker extends GameManager {
+	static readonly MIN_ANSWER = 1
+	static readonly MAX_ANSWER = 5
+	static readonly MIN_QUESTION = 1
+	static readonly MAX_QUESTION = 3
+	static readonly MAX_PAGE = 20
+
 	/** Them trang vao vi tri index va dich may trang sau do them 1 nac */
 	private addPageToIndex(index: number) {
 		var obj = cc.instantiate(this.game1NLayoutPrefab)
 		obj.getComponent(MinigameManager).metadata = this.emptyData
 		obj.active = true
-		if (index == -1) {
+		if (this.arrPages.length == 0) {
 			this.arrPages.push(obj)
 			this.arrPagesManager.push(obj.getComponent(MinigameManager))
 			this.swapPage(null, 0)
+			this.hideHeader(false)
 		} // Trang moi tinh tinh tinh
 		else {
 			this.arrPages.splice(index + 1, 0, obj)
@@ -44,6 +51,7 @@ export default class GameMaker extends GameManager {
 			this.arrPagesManager.shift()
 			this.node.removeAllChildren()
 			this.page = -1
+			this.hideHeader(true)
 		} // Chi con 1 trang
 		else if (this.page == this.arrPages.length - 1) {
 			this.arrPages.pop()
@@ -99,7 +107,7 @@ export default class GameMaker extends GameManager {
 	/** Them count cau tra loi tu vi tri start */
 	private addEmptyAnswer(start: number, count: number) {
 		for (var index = 0; index < count; index++) {
-			const ansData: any = new AnswerData(start + index)
+			const ansData: AnswerData = new AnswerData(start + index)
 			const ans = cc.instantiate(this.arrPagesManager[this.page].answerPrefab)
 			ans.getComponent(ItemButton).data = ansData
 			ans.getComponent(ItemButton).manager = this.arrPagesManager[
@@ -140,8 +148,8 @@ export default class GameMaker extends GameManager {
 	}
 
 	onPlusButton() {
-		if (this.arrPages.length >= 20) {
-			console.log("Toi da 20 trang thoi!")
+		if (this.arrPages.length >= GameMaker.MAX_PAGE) {
+			console.log("Toi da " + GameMaker.MAX_PAGE + "trang thoi!")
 		} else {
 			this.addPageToIndex(this.page)
 		}
@@ -161,21 +169,29 @@ export default class GameMaker extends GameManager {
 
 	/** Tao du lieu rong tuech cho trang moi */
 	private get emptyData() {
-		const pageData: any = {}
-		pageData.IdItem = "00000000-0000-0000-0000-000000000000"
-		pageData.Title = ""
-		pageData.question = []
-		pageData.answer = []
-		for (let index = 0; index < 3; index++) {
+		const pageData: any = new GameData()
+		for (let index = 0; index < GameMaker.MAX_QUESTION; index++) {
 			pageData.question.push(new QuestionData(index))
 		}
-		for (let index = 0; index < 5; index++) {
+		for (let index = 0; index < GameMaker.MAX_ANSWER; index++) {
 			pageData.answer.push(new AnswerData(index))
 		}
 
 		const metaData: any = {}
 		metaData.jsonData = JSON.stringify(pageData)
 		return metaData
+	}
+
+	private hideHeader(really: boolean = true) {
+		cc.find("navi/help").active = !really
+		cc.find("navi/navi_top_right").active = !really
+	}
+
+	protected loadData(arrgames: any): void {
+		if (arrgames.length == 0) {
+			this.hideHeader(true)
+		}
+		super.loadData(arrgames)
 	}
 
 	// LIFE-CYCLE CALLBACKS:

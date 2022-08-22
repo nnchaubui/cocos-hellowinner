@@ -7,20 +7,24 @@
 
 import ItemButton from "./itemButton"
 import GameManager from "../gameManager"
+import { AnswerData } from "../jsonData"
 
 const { ccclass } = cc._decorator
 
 @ccclass
 export default class ItemAnswer extends ItemButton {
 	type = "answer"
+	data: AnswerData
+	public get Solution(): number[] {
+		return this.json.Solution
+	}
+	public set Solution(value: number[]) {
+		this.json.Solution = value
+	}
 
 	public exportData(): any {
-		const ansData: any = {}
-		// ansData.Id = this.Id
-		ansData.Image = this.Image
-		ansData.Index = this.Index
-		ansData.Sound = this.Sound
-		ansData.Json = JSON.stringify({ "Solution": this.Solution })
+		const ansData = this.data
+		ansData.Json = JSON.stringify(this.json)
 		return ansData
 	}
 
@@ -32,6 +36,11 @@ export default class ItemAnswer extends ItemButton {
 	}
 
 	updateImage(url: string): void {
+		if (url == null || url == "") {
+			this.updateProperty("Image", "")
+			return
+		}
+
 		this.updateProperty("Image", url.replace(GameManager.baseUrlFile, ""))
 		cc.assetManager.loadRemote<cc.Texture2D>(url, (err, spr) => {
 			this.node
@@ -42,14 +51,28 @@ export default class ItemAnswer extends ItemButton {
 	}
 
 	updateSound(url: string): void {
+		if (url == null || url == "") {
+			this.updateProperty("Sound", "")
+			this.node.getComponent(cc.AudioSource).mute = true
+			return
+		}
+
 		this.updateProperty("Sound", url.replace(GameManager.baseUrlFile, ""))
 		cc.assetManager.loadRemote<cc.AudioClip>(url, (err, aud) => {
+			this.node.getComponent(cc.AudioSource).mute = false
 			this.node.getComponent(cc.AudioSource).clip = aud
 		})
 	}
 
 	clickItem() {
 		this.manager.onItemClick(false, this.Index)
+	}
+
+	onLoad(): void {
+		super.onLoad()
+		if (!this.json.Solution) {
+			this.json.Solution = -1
+		}
 	}
 	// update (dt) {}
 }
